@@ -1,0 +1,21 @@
+note over browser:
+user enters text in the input field 
+end note
+
+note over browser:
+user clicks save button
+end note
+
+note over browser:
+note is added to local list of notes
+end note 
+
+note over browser:
+page is rendered again to show list with the new note added
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa (containing note and date as json)
+
+note over server:
+server parses json and adds note and date to the list of notes
+end note
