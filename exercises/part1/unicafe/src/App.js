@@ -26,14 +26,27 @@ const Statistics = ({goodCount, neutralCount, badCount}) => {
   const totalVotes = goodCount + neutralCount + badCount;
   const avgScore = totalScore / totalVotes;
   const shareOfPositiveVotes = goodCount / totalVotes
+
+  let statisticsBody
+
+  if(totalVotes === 0){
+    statisticsBody = <p>No feedback given</p>
+  } else {
+    statisticsBody = (
+      <>
+        <p>good {goodCount}</p>
+        <p>neutral {neutralCount}</p>
+        <p>bad {badCount}</p>
+        <p>average {avgScore}</p>
+        <p>positive {shareOfPositiveVotes} %</p>
+      </>
+    )
+  }
+
   return(
     <>
       <Header text='statistics'/>
-      <p>good {goodCount}</p>
-      <p>neutral {neutralCount}</p>
-      <p>bad {badCount}</p>
-      <p>average {avgScore}</p>
-      <p>positive {shareOfPositiveVotes} %</p>
+      {statisticsBody}
     </>
   )
 }
