@@ -21,19 +21,19 @@ const Feedback = ({handleGood, handleNeutral, handleBad}) => {
   )
 }
 
-const StatisticItem = ({text, value}) => (
-  <>
-    <p>{text} {value}</p>
-  </>
-)
-
 const Statistics = ({goodCount, neutralCount, badCount}) => {
+  const totalScore = goodCount - badCount
+  const totalVotes = goodCount + neutralCount + badCount;
+  const avgScore = totalScore / totalVotes;
+  const shareOfPositiveVotes = goodCount / totalVotes
   return(
     <>
       <Header text='statistics'/>
-      <StatisticItem text='good' value={goodCount}/>
-      <StatisticItem text='neutral' value={neutralCount}/>
-      <StatisticItem text='bad' value={badCount}/>
+      <p>good {goodCount}</p>
+      <p>neutral {neutralCount}</p>
+      <p>bad {badCount}</p>
+      <p>average {avgScore}</p>
+      <p>positive {shareOfPositiveVotes} %</p>
     </>
   )
 }
