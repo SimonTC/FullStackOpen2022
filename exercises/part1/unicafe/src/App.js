@@ -22,11 +22,18 @@ const Feedback = ({handleGood, handleNeutral, handleBad}) => {
 }
 
 const StatisticLine = ({text, value, textAfterValue}) => {
+  let valueCellText = value
+
   if(textAfterValue){
-    return <p>{text} {value} {textAfterValue}</p>
+    valueCellText = value + ' ' + textAfterValue
   }
 
-  return <p>{text} {value}</p>
+  return (
+    <tr>
+      <td>{text}</td>
+      <td>{valueCellText}</td>
+    </tr>
+  )
 }
 
 const Statistics = ({goodCount, neutralCount, badCount}) => {
@@ -41,13 +48,13 @@ const Statistics = ({goodCount, neutralCount, badCount}) => {
     statisticsBody = <p>No feedback given</p>
   } else {
     statisticsBody = (
-      <>
+      <table>
         <StatisticLine text='good' value={goodCount}/>
         <StatisticLine text='neutral' value={neutralCount}/>
         <StatisticLine text='bad' value={badCount}/>
         <StatisticLine text='average' value={avgScore}/>
         <StatisticLine text='positive' value={shareOfPositiveVotes} textAfterValue='%'/>
-      </>
+      </table>
     )
   }
 
