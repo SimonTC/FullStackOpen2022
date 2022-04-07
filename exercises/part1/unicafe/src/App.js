@@ -21,6 +21,14 @@ const Feedback = ({handleGood, handleNeutral, handleBad}) => {
   )
 }
 
+const StatisticLine = ({text, value, textAfterValue}) => {
+  if(textAfterValue){
+    return <p>{text} {value} {textAfterValue}</p>
+  }
+
+  return <p>{text} {value}</p>
+}
+
 const Statistics = ({goodCount, neutralCount, badCount}) => {
   const totalScore = goodCount - badCount
   const totalVotes = goodCount + neutralCount + badCount;
@@ -34,11 +42,11 @@ const Statistics = ({goodCount, neutralCount, badCount}) => {
   } else {
     statisticsBody = (
       <>
-        <p>good {goodCount}</p>
-        <p>neutral {neutralCount}</p>
-        <p>bad {badCount}</p>
-        <p>average {avgScore}</p>
-        <p>positive {shareOfPositiveVotes} %</p>
+        <StatisticLine text='good' value={goodCount}/>
+        <StatisticLine text='neutral' value={neutralCount}/>
+        <StatisticLine text='bad' value={badCount}/>
+        <StatisticLine text='average' value={avgScore}/>
+        <StatisticLine text='positive' value={shareOfPositiveVotes} textAfterValue='%'/>
       </>
     )
   }
