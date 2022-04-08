@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
+import axios from "axios";
 
 const InputWithLabel = ({onChange: onNameChange, value, labelText}) => {
   return <div>
@@ -9,7 +10,7 @@ const InputWithLabel = ({onChange: onNameChange, value, labelText}) => {
 const Person = ({person}) => {
   return(
     <li>
-      {person.name} {person.phoneNumber}
+      {person.name} {person.number}
     </li>
   )
 }
@@ -18,13 +19,13 @@ const Filter = ({filterValue, onFilterUpdated}) => {
   return <div>Only show people with <input value={filterValue} onChange={onFilterUpdated}/> in their name</div>
 }
 
-const NewEntry = ({newName, newPhoneNumber, onAddPerson, onNameChange, onPhoneNumberChange}) => {
+const NewEntry = ({newName, number, onAddPerson, onNameChange, onPhoneNumberChange}) => {
   return (
     <div>
       <h2>Add new person</h2>
       <form>
         <InputWithLabel labelText="name" value={newName} onChange={onNameChange}/>
-        <InputWithLabel labelText="number" value={newPhoneNumber} onChange={onPhoneNumberChange}/>
+        <InputWithLabel labelText="number" value={number} onChange={onPhoneNumberChange}/>
         <div>
           <button type="submit" onClick={onAddPerson}>add</button>
         </div>
@@ -53,13 +54,16 @@ const stringContainsAll = (stringToCheck, characters) => {
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([
-    {name: 'Arto Hellas', phoneNumber: '040-1234567'},
-    {name: 'Simon Clement', phoneNumber: '123-78945613'},
-  ])
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
   const [filterValue, setFilterValue] = useState('');
+
+  useEffect(() => {
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => setPersons(response.data))
+  }, []);
 
   const onNameChange = (event) => {
     setNewName(event.target.value)
@@ -75,7 +79,7 @@ const App = () => {
 
   const onAddPerson = (event) => {
     event.preventDefault()
-    const newPerson = {name: newName, phoneNumber: newPhoneNumber}
+    const newPerson = {name: newName, number: newPhoneNumber}
 
     if (persons.some(p => personsAreTheSame(p, newPerson))) {
       alert(`${newName} is already added to the phonebook`)
@@ -101,7 +105,7 @@ const App = () => {
       <NewEntry
         newName={newName}
         onNameChange={onNameChange}
-        newPhoneNumber={newPhoneNumber}
+        number={newPhoneNumber}
         onPhoneNumberChange={onPhoneNumberChange}
         onAddPerson={onAddPerson}
       />
