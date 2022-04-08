@@ -24,7 +24,22 @@ const CountryList = ({countries, onCountrySelected}) => {
   )
 }
 
-const CountryDetail = ({country}) => {
+const WeatherInfo = ({weather}) => {
+  if (!weather){
+    return <p></p>
+  }
+
+  return (
+    <>
+      <p>Temperature {weather.main.temp} Celsius</p>
+      <img src={`http://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}/>
+      <p>Wind {weather.wind.speed} m/s</p>
+    </>
+  )
+
+}
+
+const CountryDetail = ({country, weatherInCountry}) => {
   return(
     <>
       <h1>{getCountryName(country)}</h1>
@@ -38,22 +53,27 @@ const CountryDetail = ({country}) => {
           </li>)}
       </ul>
       <h1>{country.flag}</h1>
+      <h2>Weather in {country.capital[0]}</h2>
+      <WeatherInfo weather={weatherInCountry}/>
     </>
   )
 }
 
-const CountryListing = ({countries, selectedCountry, onCountrySelected}) => {
+const CountryListing = ({countries, selectedCountry, onCountrySelected, weatherInSelectedCountry}) => {
   if (countries.length > 10){
     return <TooManyCountries/>
   }
 
   if (countries.length === 1){
-    return <CountryDetail country={countries[0]}/>
+    if(countries[0] !== selectedCountry){
+      onCountrySelected(countries[0])
+    }
+    return <CountryDetail country={countries[0]} weatherInCountry={weatherInSelectedCountry}/>
   }
 
   const showDetailOfSelectedCountry = () => {
     if (selectedCountry){
-      return <CountryDetail country={selectedCountry}/>
+      return <CountryDetail country={selectedCountry} weatherInCountry={weatherInSelectedCountry}/>
     }
   }
 
@@ -73,6 +93,7 @@ const App = () => {
   const [allCountries, setAllCountries] = useState([]);
   const [countryFilter, setCountryFilter] = useState('');
   const [selectedCountry, setSelectedCountry] = useState(undefined);
+  const [weatherInSelectedCountry, setWeatherInSelectedCountry] = useState(undefined);
 
   const getAllCountries = () => {
     axios
@@ -80,15 +101,33 @@ const App = () => {
       .then(response => setAllCountries(response.data))
   }
 
+  const getWeatherForCountry = (country) => {
+    if (!country){
+      return
+    }
+
+    const apiKey = process.env.REACT_APP_WEATHER_API_KEY
+
+    axios
+      .get(`http://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&appid=${apiKey}&units=metric`)
+      .then(response => setWeatherInSelectedCountry(response.data))
+  }
+
   useEffect(getAllCountries, []);
+
+  useEffect(() => getWeatherForCountry(selectedCountry), [selectedCountry])
 
   const onFilterUpdated = (event) => {
     setCountryFilter(event.target.value)
     setSelectedCountry(undefined)
+    setWeatherInSelectedCountry(undefined)
   }
 
   const onCountrySelected = (country) => {
-    setSelectedCountry(country)
+    if (country !== selectedCountry){
+      setSelectedCountry(country)
+      setWeatherInSelectedCountry(undefined)
+    }
   }
 
   const countriesToShow = allCountries.filter(country =>
@@ -101,6 +140,7 @@ const App = () => {
         countries={countriesToShow}
         onCountrySelected={onCountrySelected}
         selectedCountry={selectedCountry}
+        weatherInSelectedCountry={weatherInSelectedCountry}
       />
     </div>
   )
