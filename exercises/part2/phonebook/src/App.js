@@ -1,51 +1,8 @@
 import {useEffect, useState} from 'react'
 import axios from "axios";
-
-const InputWithLabel = ({onChange: onNameChange, value, labelText}) => {
-  return <div>
-    {labelText}: <input value={value} onChange={onNameChange}/>
-  </div>;
-}
-
-const Person = ({person}) => {
-  return(
-    <li>
-      {person.name} {person.number}
-    </li>
-  )
-}
-
-const Filter = ({filterValue, onFilterUpdated}) => {
-  return <div>Only show people with <input value={filterValue} onChange={onFilterUpdated}/> in their name</div>
-}
-
-const NewEntry = ({newName, number, onAddPerson, onNameChange, onPhoneNumberChange}) => {
-  return (
-    <div>
-      <h2>Add new person</h2>
-      <form>
-        <InputWithLabel labelText="name" value={newName} onChange={onNameChange}/>
-        <InputWithLabel labelText="number" value={number} onChange={onPhoneNumberChange}/>
-        <div>
-          <button type="submit" onClick={onAddPerson}>add</button>
-        </div>
-      </form>
-    </div>
-  );
-}
-
-const PersonList = ({persons}) => {
-  return(
-    <div>
-      <h2>Numbers</h2>
-      <ul>
-        {persons.map(p =>
-          <Person key={p.name} person={p}/>
-        )}
-      </ul>
-    </div>
-  )
-}
+import PersonList from "./components/PersonList";
+import Filter from "./components/Filter";
+import NewEntry from "./components/NewEntry";
 
 const stringContainsAll = (stringToCheck, characters) => {
   const stringAsLowerCase = stringToCheck.toLowerCase()
