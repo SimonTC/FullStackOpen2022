@@ -1,13 +1,32 @@
 import { useState } from 'react'
 
+const InputWithLabel = ({onChange, value, labelText}) => {
+  return <div>
+    {labelText}: <input value={value} onChange={onChange}/>
+  </div>;
+}
+
+const Person = ({person}) => {
+  return(
+    <li>
+      {person.name} {person.phoneNumber}
+    </li>
+  )
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', phoneNumber: '040-1234567' }
   ])
   const [newName, setNewName] = useState('')
+  const [newPhoneNumber, setNewPhoneNumber] = useState('');
 
   const onNameChange = (event) => {
     setNewName(event.target.value)
+  }
+
+  const onPhoneNumberChange = (event) => {
+    setNewPhoneNumber(event.target.value)
   }
 
   const personsAreTheSame = (person1, person2) => {
@@ -16,13 +35,14 @@ const App = () => {
 
   const onAddPerson = (event) => {
     event.preventDefault()
-    const newPerson = {name: newName}
+    const newPerson = {name: newName, phoneNumber: newPhoneNumber}
 
     if (persons.some(p => personsAreTheSame(p, newPerson ))){
       alert(`${newName} is already added to the phonebook`)
     } else {
       setPersons(persons.concat(newPerson))
       setNewName('')
+      setNewPhoneNumber('')
     }
   }
 
@@ -30,16 +50,17 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
       <form>
-        <div>
-          name: <input value={newName} onChange={onNameChange} />
-        </div>
+        <InputWithLabel labelText='name' value={newName} onChange={onNameChange}/>
+        <InputWithLabel labelText='number' value={newPhoneNumber} onChange={onPhoneNumberChange}/>
         <div>
           <button type="submit" onClick={onAddPerson}>add</button>
         </div>
       </form>
       <h2>Numbers</h2>
       <ul>
-        {persons.map(p => <li key={p.name}>{p.name}</li> )}
+        {persons.map(p =>
+          <Person key={p.name} person={p}/>
+        )}
       </ul>
     </div>
   )
