@@ -5,10 +5,21 @@ const getCountryName = (country) => country.name.common
 
 const TooManyCountries = () => <p>Too many matches, specify another filter</p>
 
-const CountryList = ({countries}) => {
+const SingleCountryBaseInfo = ({country, onCountrySelected}) => {
+  return(
+    <li>
+      {getCountryName(country)}
+      <button onClick={() => onCountrySelected(country)}>show</button>
+    </li>
+  )
+}
+
+const CountryList = ({countries, onCountrySelected}) => {
   return (
     <ul>
-      {countries.map(getCountryName).map(name => <li key={name}>{name}</li>)}
+      {countries.map(country =>
+        <SingleCountryBaseInfo key={getCountryName(country)} country={country} onCountrySelected={onCountrySelected}/>
+      )}
     </ul>
   )
 }
@@ -21,16 +32,17 @@ const CountryDetail = ({country}) => {
       <p>Area: {country.area}</p>
       <b>Languages</b>
       <ul>
-        {Object.entries(country.languages).map(([_, language]) => <li>{language}</li>)}
+        {Object.entries(country.languages).map(([_, language]) =>
+          <li key={language}>
+            {language}
+          </li>)}
       </ul>
-
-
-      {country.flag}
+      <h1>{country.flag}</h1>
     </>
   )
 }
 
-const CountryListing = ({countries}) => {
+const CountryListing = ({countries, selectedCountry, onCountrySelected}) => {
   if (countries.length > 10){
     return <TooManyCountries/>
   }
@@ -39,7 +51,18 @@ const CountryListing = ({countries}) => {
     return <CountryDetail country={countries[0]}/>
   }
 
-  return <CountryList countries={countries}/>
+  const showDetailOfSelectedCountry = () => {
+    if (selectedCountry){
+      return <CountryDetail country={selectedCountry}/>
+    }
+  }
+
+  return (
+    <>
+      <CountryList countries={countries} onCountrySelected={onCountrySelected}/>
+      {showDetailOfSelectedCountry()}
+    </>
+  )
 }
 
 const CountryFilter = (props) => {
@@ -49,6 +72,7 @@ const CountryFilter = (props) => {
 const App = () => {
   const [allCountries, setAllCountries] = useState([]);
   const [countryFilter, setCountryFilter] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState(undefined);
 
   const getAllCountries = () => {
     axios
@@ -60,6 +84,11 @@ const App = () => {
 
   const onFilterUpdated = (event) => {
     setCountryFilter(event.target.value)
+    setSelectedCountry(undefined)
+  }
+
+  const onCountrySelected = (country) => {
+    setSelectedCountry(country)
   }
 
   const countriesToShow = allCountries.filter(country =>
@@ -68,7 +97,11 @@ const App = () => {
   return(
     <div>
       <CountryFilter value={countryFilter} onChange={onFilterUpdated}/>
-      <CountryListing countries={countriesToShow}/>
+      <CountryListing
+        countries={countriesToShow}
+        onCountrySelected={onCountrySelected}
+        selectedCountry={selectedCountry}
+      />
     </div>
   )
 
