@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import * as PropTypes from "prop-types";
 
 const InputWithLabel = ({onChange: onNameChange, value, labelText}) => {
   return <div>
@@ -43,12 +42,20 @@ const PersonList = ({persons}) => {
   )
 }
 
+const stringContainsAll = (stringToCheck, characters) => {
+  const stringAsLowerCase = stringToCheck.toLowerCase()
+  return [...characters]
+    .every(c => stringAsLowerCase.includes(c.toLowerCase()))
+}
+
 const App = () => {
   const [persons, setPersons] = useState([
-    {name: 'Arto Hellas', phoneNumber: '040-1234567'}
+    {name: 'Arto Hellas', phoneNumber: '040-1234567'},
+    {name: 'Simon Clement', phoneNumber: '123-78945613'},
   ])
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
+  const [filterValue, setFilterValue] = useState('');
 
   const onNameChange = (event) => {
     setNewName(event.target.value)
@@ -74,10 +81,19 @@ const App = () => {
       setNewPhoneNumber('')
     }
   }
+  
+  const onFilterUpdated = (event) => {
+    setFilterValue(event.target.value)
+  }
+
+  const personsToShow = filterValue === ''
+    ? persons
+    : persons.filter(p => stringContainsAll(p.name, filterValue))
 
   return (
     <div>
       <h1>Phonebook</h1>
+      Only show people with <input value={filterValue} onChange={onFilterUpdated}/> in their name
       <NewEntry
         newName={newName}
         onNameChange={onNameChange}
@@ -85,7 +101,7 @@ const App = () => {
         onPhoneNumberChange={onPhoneNumberChange}
         onAddPerson={onAddPerson}
       />
-      <PersonList persons={persons}/>
+      <PersonList persons={personsToShow}/>
     </div>
   )
 }
