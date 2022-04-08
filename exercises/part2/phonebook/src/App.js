@@ -10,11 +10,20 @@ const App = () => {
     setNewName(event.target.value)
   }
 
+  const personsAreTheSame = (person1, person2) => {
+    return person1.name === person2.name
+  }
+
   const onAddPerson = (event) => {
     event.preventDefault()
     const newPerson = {name: newName}
-    setPersons(persons.concat(newPerson))
-    setNewName('')
+
+    if (persons.some(p => personsAreTheSame(p, newPerson ))){
+      alert(`${newName} is already added to the phonebook`)
+    } else {
+      setPersons(persons.concat(newPerson))
+      setNewName('')
+    }
   }
 
   return (
