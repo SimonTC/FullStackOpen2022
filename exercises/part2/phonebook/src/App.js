@@ -14,6 +14,10 @@ const Person = ({person}) => {
   )
 }
 
+const Filter = ({filterValue, onFilterUpdated}) => {
+  return <div>Only show people with <input value={filterValue} onChange={onFilterUpdated}/> in their name</div>
+}
+
 const NewEntry = ({newName, newPhoneNumber, onAddPerson, onNameChange, onPhoneNumberChange}) => {
   return (
     <div>
@@ -93,7 +97,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
-      Only show people with <input value={filterValue} onChange={onFilterUpdated}/> in their name
+      <Filter filterValue={filterValue} onFilterUpdated={onFilterUpdated}/>
       <NewEntry
         newName={newName}
         onNameChange={onNameChange}
