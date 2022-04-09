@@ -34,6 +34,12 @@ const App = () => {
     return contact1.name === contact2.name
   }
 
+  const onDeleteContact = (contactId) => {
+    contacts
+      .remove(contactId)
+      .then(() => setAllContacts(allContacts.filter(c => c.id !== contactId)) )
+  }
+
   const onAddContact = (event) => {
     event.preventDefault()
     const newContact = {name: newName, number: newPhoneNumber}
@@ -68,7 +74,7 @@ const App = () => {
         onPhoneNumberChange={onPhoneNumberChange}
         onAddContact={onAddContact}
       />
-      <ContactList contacts={contactsToShow}/>
+      <ContactList contacts={contactsToShow} onDeleteContact={onDeleteContact}/>
     </div>
   )
 }
