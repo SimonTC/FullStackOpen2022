@@ -30,28 +30,38 @@ const App = () => {
     setNewPhoneNumber(event.target.value)
   }
 
-  const contactsAreTheSame = (contact1, contact2) => {
-    return contact1.name === contact2.name
-  }
-
   const onDeleteContact = (contactId) => {
     contacts
       .remove(contactId)
       .then(() => setAllContacts(allContacts.filter(c => c.id !== contactId)) )
   }
 
+  function createNewContact(newContact) {
+    contacts
+      .create(newContact)
+      .then(createdContact => setAllContacts(allContacts.concat(createdContact)))
+    setNewName('')
+    setNewPhoneNumber('')
+  }
+
+  function updateExistingContactIfAllowed(existingContact) {
+    const question = `${existingContact.name} is already in the phonebook. Replace the old number with a new one?`
+    if(window.confirm(question)){
+      contacts
+        .update(existingContact)
+        .then(updatedContact => setAllContacts(allContacts.map(c => c.id === updatedContact.id ? updatedContact : c)) )
+    }
+  }
+
   const onAddContact = (event) => {
     event.preventDefault()
     const newContact = {name: newName, number: newPhoneNumber}
+    const contactWithSameName = allContacts.find(c => c.name === newName)
 
-    if (allContacts.some(p => contactsAreTheSame(p, newContact))) {
-      alert(`${newName} is already added to the phonebook`)
+    if (contactWithSameName) {
+      updateExistingContactIfAllowed({... contactWithSameName, number: newPhoneNumber});
     } else {
-      contacts
-        .create(newContact)
-        .then(createdContact => setAllContacts(allContacts.concat(createdContact)))
-      setNewName('')
-      setNewPhoneNumber('')
+      createNewContact(newContact);
     }
   }
   
