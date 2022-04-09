@@ -1,0 +1,10 @@
+GET http://localhost:3001/api/notes/2
+Accept: application/json
+
+###
+
+DELETE {{BASE_URL}}/1
+
+###
+// Get all
+GET {{BASE_URL}}
