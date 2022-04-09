@@ -1,7 +1,7 @@
 const requestContactDeletionOnConfirmation = (contact, onDeleteContact) => {
   const deleteContact = window.confirm(`Delete ${contact.name}?`)
   if (deleteContact){
-    onDeleteContact(contact.id)
+    onDeleteContact(contact)
   }
 }
 
