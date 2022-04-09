@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react'
-import axios from "axios";
 import PersonList from "./components/PersonList";
 import Filter from "./components/Filter";
 import NewEntry from "./components/NewEntry";
+import contacts from "./services/contacts";
 
 const stringContainsAll = (stringToCheck, characters) => {
   const stringAsLowerCase = stringToCheck.toLowerCase()
@@ -17,9 +17,9 @@ const App = () => {
   const [filterValue, setFilterValue] = useState('');
 
   useEffect(() => {
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => setPersons(response.data))
+    contacts
+      .getAll()
+      .then(allContacts => setPersons(allContacts))
   }, []);
 
   const onNameChange = (event) => {
@@ -41,7 +41,9 @@ const App = () => {
     if (persons.some(p => personsAreTheSame(p, newPerson))) {
       alert(`${newName} is already added to the phonebook`)
     } else {
-      setPersons(persons.concat(newPerson))
+      contacts
+        .create(newPerson)
+        .then(createdContact => setPersons(persons.concat(createdContact)))
       setNewName('')
       setNewPhoneNumber('')
     }
