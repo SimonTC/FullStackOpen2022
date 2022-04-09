@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react'
-import PersonList from "./components/PersonList";
+import ContactList from "./components/ContactList";
 import Filter from "./components/Filter";
 import NewEntry from "./components/NewEntry";
 import contacts from "./services/contacts";
@@ -11,7 +11,7 @@ const stringContainsAll = (stringToCheck, characters) => {
 }
 
 const App = () => {
-  const [persons, setPersons] = useState([])
+  const [allContacts, setAllContacts] = useState([])
   const [newName, setNewName] = useState('')
   const [newPhoneNumber, setNewPhoneNumber] = useState('');
   const [filterValue, setFilterValue] = useState('');
@@ -19,7 +19,7 @@ const App = () => {
   useEffect(() => {
     contacts
       .getAll()
-      .then(allContacts => setPersons(allContacts))
+      .then(allContacts => setAllContacts(allContacts))
   }, []);
 
   const onNameChange = (event) => {
@@ -30,20 +30,20 @@ const App = () => {
     setNewPhoneNumber(event.target.value)
   }
 
-  const personsAreTheSame = (person1, person2) => {
-    return person1.name === person2.name
+  const contactsAreTheSame = (contact1, contact2) => {
+    return contact1.name === contact2.name
   }
 
-  const onAddPerson = (event) => {
+  const onAddContact = (event) => {
     event.preventDefault()
-    const newPerson = {name: newName, number: newPhoneNumber}
+    const newContact = {name: newName, number: newPhoneNumber}
 
-    if (persons.some(p => personsAreTheSame(p, newPerson))) {
+    if (allContacts.some(p => contactsAreTheSame(p, newContact))) {
       alert(`${newName} is already added to the phonebook`)
     } else {
       contacts
-        .create(newPerson)
-        .then(createdContact => setPersons(persons.concat(createdContact)))
+        .create(newContact)
+        .then(createdContact => setAllContacts(allContacts.concat(createdContact)))
       setNewName('')
       setNewPhoneNumber('')
     }
@@ -53,9 +53,9 @@ const App = () => {
     setFilterValue(event.target.value)
   }
 
-  const personsToShow = filterValue === ''
-    ? persons
-    : persons.filter(p => stringContainsAll(p.name, filterValue))
+  const contactsToShow = filterValue === ''
+    ? allContacts
+    : allContacts.filter(p => stringContainsAll(p.name, filterValue))
 
   return (
     <div>
@@ -66,9 +66,9 @@ const App = () => {
         onNameChange={onNameChange}
         number={newPhoneNumber}
         onPhoneNumberChange={onPhoneNumberChange}
-        onAddPerson={onAddPerson}
+        onAddContact={onAddContact}
       />
-      <PersonList persons={personsToShow}/>
+      <ContactList contacts={contactsToShow}/>
     </div>
   )
 }

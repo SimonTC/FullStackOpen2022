@@ -4,15 +4,15 @@ const InputWithLabel = ({onChange: onNameChange, value, labelText}) => {
   </div>;
 }
 
-const NewEntry = ({newName, number, onAddPerson, onNameChange, onPhoneNumberChange}) => {
+const NewEntry = ({newName, number, onAddContact, onNameChange, onPhoneNumberChange}) => {
   return (
     <div>
-      <h2>Add new person</h2>
+      <h2>Add new contact</h2>
       <form>
         <InputWithLabel labelText="name" value={newName} onChange={onNameChange}/>
         <InputWithLabel labelText="number" value={number} onChange={onPhoneNumberChange}/>
         <div>
-          <button type="submit" onClick={onAddPerson}>add</button>
+          <button type="submit" onClick={onAddContact}>add</button>
         </div>
       </form>
     </div>
