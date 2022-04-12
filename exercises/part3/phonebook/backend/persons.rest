@@ -1,4 +1,8 @@
-GET {{BASE_URL}}
+GET {{BASE_URL}}/info
+Accept: text/html
+
+###
+GET {{API_URL}}
 Accept: application/json
 
 ###
