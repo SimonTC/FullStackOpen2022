@@ -1,7 +1,33 @@
+### Create person with all data
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "name": "John",
+  "number": "123"
+}
+
+### Create person with missing name
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "number": "123"
+}
+
+### Create person with missing number
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "name": "John"
+}
+
+###
 GET {{BASE_URL}}/info
 Accept: text/html
 
-###
+### All persons
 GET {{API_URL}}
 Accept: application/json
 
@@ -17,3 +43,4 @@ DELETE {{API_URL}}/1
 Accept: application/json
 
 ###
+
