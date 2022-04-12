@@ -6,3 +6,14 @@ GET {{API_URL}}
 Accept: application/json
 
 ###
+
+###
+GET {{API_URL}}/1
+Accept: application/json
+
+###
+
+DELETE {{API_URL}}/1
+Accept: application/json
+
+###
