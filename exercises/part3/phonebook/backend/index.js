@@ -4,7 +4,26 @@ const app = express()
 app.use(express.json())
 
 const morgan = require('morgan')
-app.use(morgan('tiny'))
+
+const getLogLine = (tokens, request, response) => {
+  const baseLogElements = [
+    tokens.method(request, response),
+    tokens.url(request, response),
+    tokens.status(request, response),
+    tokens.res(request, response, 'content-length'), '-',
+    tokens['response-time'](request, response), 'ms'
+  ]
+
+  let logElements = baseLogElements
+  if(request.method === "POST"){
+     logElements = logElements.concat(JSON.stringify(request.body))
+  }
+
+  return logElements.join(' ')
+}
+
+morgan.token('body', function (req, res) { return req.body })
+app.use(morgan(getLogLine))
 
 let persons = [
   {
