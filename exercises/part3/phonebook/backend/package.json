@@ -8,9 +8,9 @@
     "dev": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:ui": "rm -rf build && cd ../frontend && npm run build && cp -r build ../backend",
-    "deploy": "git push heroku master",
+    "deploy": "git push heroku-phonebook master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
-    "logs:prod": "heroku logs --tail"
+    "logs:prod": "heroku logs --remote heroku-phonebook --tail"
   },
   "author": "",
   "license": "ISC",
