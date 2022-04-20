@@ -432,3 +432,4 @@ fabric.properties
 
 # Do not ignore the build directory in the backend to make it possible to deploy frontend together with backend
 !examples/notes/backend/build
+!exercises/part3/phonebook/backend/build
