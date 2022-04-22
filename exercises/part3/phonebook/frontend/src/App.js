@@ -53,6 +53,9 @@ const App = () => {
         setAllContacts(allContacts.concat(createdContact))
         showNotification(`Added ${newContact.name}`, false)
       })
+      .catch(error => {
+        showNotification(error.response.data.error, true)
+      })
     setNewName('')
     setNewPhoneNumber('')
   }
@@ -65,10 +68,11 @@ const App = () => {
         .then(updatedContact => {
           setAllContacts(allContacts.map(c => c.id === updatedContact.id ? updatedContact : c))
           showNotification(`Updated ${updatedContact.name}`, false)
-        }).catch((error) => {
-        showNotification(`The contact info for ${existingContact.name} no longer exist on the server`, true)
-        setAllContacts(allContacts.filter(c => c.id !== existingContact.id))
-      })
+        })
+        .catch((error) => {
+          showNotification(error.response.data, true)
+          setAllContacts(allContacts.filter(c => c.id !== existingContact.id))
+        })
     }
   }
 

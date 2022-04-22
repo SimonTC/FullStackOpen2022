@@ -7,6 +7,15 @@ Content-Type: application/json
   "number": "123"
 }
 
+### Create person with too short name
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "name": "J",
+  "number": "123"
+}
+
 ### Create person with missing name
 POST {{API_URL}}
 Content-Type: application/json
