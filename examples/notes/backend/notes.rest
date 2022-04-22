@@ -7,6 +7,23 @@ Content-Type: application/json
   "important": true
 }
 
+### Add new note with too short content
+POST {{BASE_URL}}
+Content-Type: application/json
+
+{
+  "content": "I am",
+  "important": true
+}
+
+### Add new note with missing content
+POST {{BASE_URL}}
+Content-Type: application/json
+
+{
+  "important": true
+}
+
 ### Get node with specific id
 GET http://localhost:3001/api/notes/6262d4a54b27c24f2bc56ee0
 Accept: application/json
