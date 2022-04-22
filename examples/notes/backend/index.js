@@ -50,7 +50,7 @@ app.get('/api/notes', (request, response) => {
     }))
 })
 
-app.get('/api/notes/:id', (request, response) => {
+app.get('/api/notes/:id', (request, response, next) => {
   Note.findById(request.params.id)
     .then(note => {
       if(note){
@@ -59,10 +59,7 @@ app.get('/api/notes/:id', (request, response) => {
         response.status(404).end()
       }
     })
-    .catch(error => {
-      console.log(error)
-      response.status(400).send({error: 'malformed id'})
-    })
+    .catch(error => next(error)) // By using next(xxx) the error is sent to the next middleware
 })
 
 app.delete('/api/notes/:id', (request, response) => {
@@ -97,6 +94,18 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({error: 'unknown endpoint'})
 }
 app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError'){
+    return response.status(400).send({error: 'malformed id'})
+  }
+
+  next(error) // Send error on to the default express errorhandler
+}
+
+app.use(errorHandler) // use errorHandler as the middleware used to handle errors when next(xxx) is called
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
