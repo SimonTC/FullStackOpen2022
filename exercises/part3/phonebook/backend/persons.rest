@@ -1,10 +1,73 @@
-### Create person with all data
+### Create person with all data 1
 POST {{API_URL}}
 Content-Type: application/json
 
 {
   "name": "John",
-  "number": "123"
+  "number": "12345678"
+}
+
+### Create person with all data 2
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "name": "John2",
+  "number": "09-12345"
+}
+
+### Create person with all data 3
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "name": "John3",
+  "number": "040-22334455"
+}
+
+### Create person with invalid name and number
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "name": "Jo",
+  "number": "12345"
+}
+
+### Create person with invalid number 1
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "name": "John",
+  "number": "1234567"
+}
+
+### Create person with invalid number 2
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "name": "John",
+  "number": "1-22334455"
+}
+
+### Create person with invalid number 3
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "name": "John",
+  "number": "10-22-334455"
+}
+
+### Create person with invalid number 4
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "name": "John",
+  "number": "10-     "
 }
 
 ### Create person with too short name
@@ -13,7 +76,7 @@ Content-Type: application/json
 
 {
   "name": "J",
-  "number": "123"
+  "number": "123456789"
 }
 
 ### Create person with missing name
@@ -21,7 +84,7 @@ POST {{API_URL}}
 Content-Type: application/json
 
 {
-  "number": "123"
+  "number": "123456789"
 }
 
 ### Create person with missing number
@@ -63,7 +126,7 @@ Content-Type: application/json
 
 {
   "name": "John",
-  "number": "123"
+  "number": "123465789"
 }
 
 ### Update person

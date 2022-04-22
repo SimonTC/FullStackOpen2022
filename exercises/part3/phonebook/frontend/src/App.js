@@ -70,7 +70,7 @@ const App = () => {
           showNotification(`Updated ${updatedContact.name}`, false)
         })
         .catch((error) => {
-          showNotification(error.response.data, true)
+          showNotification(error.response.data.error, true)
           setAllContacts(allContacts.filter(c => c.id !== existingContact.id))
         })
     }
