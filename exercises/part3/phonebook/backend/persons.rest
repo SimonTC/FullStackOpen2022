@@ -47,3 +47,21 @@ DELETE {{API_URL}}/1
 
 ### Delete by id
 DELETE {{API_URL}}/62630b845c915ef14f8162a3
+
+### Update person with malformed id
+PUT {{API_URL}}/1
+Content-Type: application/json
+
+{
+  "name": "John",
+  "number": "123"
+}
+
+### Update person
+PUT {{API_URL}}/6262e92834246599ccb816ce
+Content-Type: application/json
+
+{
+  "name": "John",
+  "number": "123-456789"
+}

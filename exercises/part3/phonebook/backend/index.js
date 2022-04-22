@@ -58,6 +58,21 @@ app.get('/api/persons', (request, response) => {
     })
 })
 
+app.put('/api/persons/:id', (request, response, next) => {
+  const body = request.body
+
+  const person = {
+    name: body.name,
+    number: body.number
+  }
+
+  Person.findByIdAndUpdate(request.params.id, person, {new: true}) // the object {new:true} ensures that the updatedNote that is given to the callback is the actual updated note and not the original note
+    .then(updatedPerson => {
+      response.json(updatedPerson)
+    })
+    .catch(error => next(error))
+})
+
 app.get('/info', (request, response) => {
   const numEntries = persons.length
   const date = new Date()
