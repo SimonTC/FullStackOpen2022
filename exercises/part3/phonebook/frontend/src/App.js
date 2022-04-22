@@ -50,8 +50,7 @@ const App = () => {
     contacts
       .create(newContact)
       .then(createdContact => {
-        setAllContacts(allContacts.concat(createdContact))
-        showNotification(`Added ${newContact.name}`, false)
+        showNotification(`Added ${createdContact.name}`, false)
       })
       .catch(error => {
         showNotification(error.response.data.error, true)
@@ -66,12 +65,10 @@ const App = () => {
       contacts
         .update(existingContact)
         .then(updatedContact => {
-          setAllContacts(allContacts.map(c => c.id === updatedContact.id ? updatedContact : c))
           showNotification(`Updated ${updatedContact.name}`, false)
         })
         .catch((error) => {
           showNotification(error.response.data.error, true)
-          setAllContacts(allContacts.filter(c => c.id !== existingContact.id))
         })
     }
   }
@@ -86,6 +83,12 @@ const App = () => {
     } else {
       createNewContact(newContact);
     }
+
+    // This might not be super efficient, but this way I am sure that the list of all contacts
+    // is up to date after adding or updating a contact.
+    contacts
+      .getAll()
+      .then(allContacts => setAllContacts(allContacts))
   }
   
   const onFilterUpdated = (event) => {
