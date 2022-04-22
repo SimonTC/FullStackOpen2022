@@ -7,6 +7,27 @@ app.use(express.static('build'))
 
 app.use(express.json())
 
+if (process.argv.length < 3){
+  console.log('Please provide the password as an argument: node mongo.js <password>')
+  process.exit(1)
+}
+
+const mongodbPassword = process.argv[2]
+
+const mongoose = require('mongoose')
+const url =
+  `mongodb+srv://fullstackopen:${mongodbPassword}@cluster0.xr3g3.mongodb.net/noteApp?retryWrites=true&w=majority`
+
+mongoose.connect(url)
+
+const noteSchema = new mongoose.Schema({
+  content: String,
+  date: Date,
+  important: Boolean,
+})
+
+const Note = mongoose.model('Note', noteSchema)
+
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:', request.path)
@@ -42,7 +63,12 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/notes', (request, response) => {
-  response.json(notes)
+  Note.find({})
+    .then((notes => {
+      response.json(notes)
+    }))
+
+
 })
 
 app.get('/api/notes/:id', (request, response) => {
