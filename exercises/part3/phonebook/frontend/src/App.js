@@ -57,31 +57,10 @@ const App = () => {
     setNewPhoneNumber('')
   }
 
-  function updateExistingContactIfAllowed(existingContact) {
-    const question = `${existingContact.name} is already in the phonebook. Replace the old number with a new one?`
-    if(window.confirm(question)){
-      contacts
-        .update(existingContact)
-        .then(updatedContact => {
-          setAllContacts(allContacts.map(c => c.id === updatedContact.id ? updatedContact : c))
-          showNotification(`Updated ${updatedContact.name}`, false)
-        }).catch((error) => {
-          showNotification(`The contact info for ${existingContact.name} no longer exist on the server`, true)
-        setAllContacts(allContacts.filter(c => c.id !== existingContact.id))
-      })
-    }
-  }
-
   const onAddContact = (event) => {
     event.preventDefault()
     const newContact = {name: newName, number: newPhoneNumber}
-    const contactWithSameName = allContacts.find(c => c.name === newName)
-
-    if (contactWithSameName) {
-      updateExistingContactIfAllowed({... contactWithSameName, number: newPhoneNumber});
-    } else {
-      createNewContact(newContact);
-    }
+    createNewContact(newContact);
   }
   
   const onFilterUpdated = (event) => {
