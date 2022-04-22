@@ -62,11 +62,12 @@ app.get('/api/notes/:id', (request, response, next) => {
     .catch(error => next(error)) // By using next(xxx) the error is sent to the next middleware
 })
 
-app.delete('/api/notes/:id', (request, response) => {
-  const id = Number(request.params.id)
-  notes = notes.filter(note => note.id !== id)
-
-  response.status(204).end()
+app.delete('/api/notes/:id', (request, response, next) => {
+  Note.findByIdAndDelete(request.params.id)
+    .then(result => {
+      response.status(204).end()
+    })
+    .catch(error => next(error))
 })
 
 app.post('/api/notes', (request, response) => {

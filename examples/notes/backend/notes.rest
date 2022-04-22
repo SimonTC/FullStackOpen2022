@@ -1,3 +1,4 @@
+### Add new note
 POST {{BASE_URL}}
 Content-Type: application/json
 
@@ -14,11 +15,12 @@ Accept: application/json
 GET http://localhost:3001/api/notes/1
 Accept: application/json
 
-###
-
+### Delete node with malformed id
 DELETE {{BASE_URL}}/1
 
-###
-// Get all
+### Delete node with specific id
+DELETE {{BASE_URL}}/6263048d4f9fe30b639cc7d5
+
+### Get all notes
 GET {{BASE_URL}}
 
