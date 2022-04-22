@@ -42,10 +42,8 @@ Accept: application/json
 ### Send request to non existing endpoint
 GET {{BASE_URL}}/not_existing
 
-###
-
+### Delete with malformed id
 DELETE {{API_URL}}/1
-Accept: application/json
 
-###
-
+### Delete by id
+DELETE {{API_URL}}/62630b845c915ef14f8162a3
