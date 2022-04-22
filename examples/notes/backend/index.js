@@ -9,11 +9,6 @@ app.use(express.static('build'))
 
 app.use(express.json())
 
-if (process.argv.length < 3){
-  console.log('Please provide the password as an argument: node mongo.js <password>')
-  process.exit(1)
-}
-
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
   console.log('Path:', request.path)
