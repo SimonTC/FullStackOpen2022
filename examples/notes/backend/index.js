@@ -1,3 +1,4 @@
+const Note = require('./models/note')
 const express = require('express')
 const app = express()
 
@@ -11,30 +12,6 @@ if (process.argv.length < 3){
   console.log('Please provide the password as an argument: node mongo.js <password>')
   process.exit(1)
 }
-
-const mongodbPassword = process.argv[2]
-
-const mongoose = require('mongoose')
-const url =
-  `mongodb+srv://fullstackopen:${mongodbPassword}@cluster0.xr3g3.mongodb.net/noteApp?retryWrites=true&w=majority`
-
-mongoose.connect(url)
-
-const noteSchema = new mongoose.Schema({
-  content: String,
-  date: Date,
-  important: Boolean,
-})
-
-noteSchema.set('toJSON', {
-  transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
-    delete returnedObject._id
-    delete returnedObject.__v
-  }
-})
-
-const Note = mongoose.model('Note', noteSchema)
 
 const requestLogger = (request, response, next) => {
   console.log('Method:', request.method)
