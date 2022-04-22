@@ -31,11 +31,16 @@ Accept: text/html
 GET {{API_URL}}
 Accept: application/json
 
-###
-
 ### Find person by id
 GET {{API_URL}}/6262e92834246599ccb816ce
 Accept: application/json
+
+### Find person by malformed id
+GET {{API_URL}}/1
+Accept: application/json
+
+### Send request to non existing endpoint
+GET {{BASE_URL}}/not_existing
 
 ###
 

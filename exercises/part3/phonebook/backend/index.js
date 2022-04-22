@@ -11,15 +11,13 @@ app.use(express.static('build'))
 app.use(cors())
 
 const getLogLine = (tokens, request, response) => {
-  const baseLogElements = [
+  let logElements = [
     tokens.method(request, response),
     tokens.url(request, response),
     tokens.status(request, response),
     tokens.res(request, response, 'content-length'), '-',
     tokens['response-time'](request, response), 'ms'
   ]
-
-  let logElements = baseLogElements
   if(request.method === "POST"){
      logElements = logElements.concat(JSON.stringify(request.body))
   }
@@ -70,14 +68,12 @@ app.get('/info', (request, response) => {
   response.end(responseText)
 })
 
-app.get('/api/persons/:id', (request, response) => {
+app.get('/api/persons/:id', (request, response, next) => {
   Person.findById(request.params.id)
     .then(person => {
       response.json(person)
     })
-    .catch(error => {
-      response.status(404).end()
-    })
+    .catch(error => next(error))
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -111,6 +107,22 @@ app.post('/api/persons', (request, respone) => {
       respone.json(savedPerson)
     })
 })
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({error: 'unknown endpoint'})
+}
+app.use(unknownEndpoint)
+
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError'){
+    return response.status(400).send({error: 'malformed id'})
+  }
+
+  next(error) // Send error on to the default express errorhandler
+}
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
