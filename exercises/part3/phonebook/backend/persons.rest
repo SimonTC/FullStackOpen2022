@@ -33,8 +33,8 @@ Accept: application/json
 
 ###
 
-###
-GET {{API_URL}}/1
+### Find person by id
+GET {{API_URL}}/6262e92834246599ccb816ce
 Accept: application/json
 
 ###
