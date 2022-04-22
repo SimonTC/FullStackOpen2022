@@ -27,30 +27,6 @@ const getLogLine = (tokens, request, response) => {
 
 morgan.token('body', function (req, res) { return req.body })
 app.use(morgan(getLogLine))
-
-let persons = [
-  {
-    "id": 1,
-    "name": "Arto Hellas",
-    "number": "040-123456"
-  },
-  {
-    "id": 2,
-    "name": "Ada Lovelace",
-    "number": "39-44-5323523"
-  },
-  {
-    "id": 3,
-    "name": "Dan Abramov",
-    "number": "12-43-234345"
-  },
-  {
-    "id": 4,
-    "name": "Mary Poppendieck",
-    "number": "39-23-6423122"
-  }
-]
-
 app.get('/api/persons', (request, response) => {
   Person.find({})
     .then(persons => {
@@ -74,13 +50,15 @@ app.put('/api/persons/:id', (request, response, next) => {
 })
 
 app.get('/info', (request, response) => {
-  const numEntries = persons.length
-  const date = new Date()
+  Person.countDocuments({})
+    .then(count => {
+      const numEntries = count
+      const date = new Date()
+      const responseText = `<p>Phonebook has info for ${numEntries} people</p><p>${date}</p>`
 
-  const responseText = `<p>Phonebook has info for ${numEntries} people</p><p>${date}</p>`
-
-  response.writeHead(200, {'Content-Type': 'text/html' })
-  response.end(responseText)
+      response.writeHead(200, {'Content-Type': 'text/html' })
+      response.end(responseText)
+    })
 })
 
 app.get('/api/persons/:id', (request, response, next) => {
