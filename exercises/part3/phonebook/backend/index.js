@@ -25,7 +25,7 @@ const getLogLine = (tokens, request, response) => {
   return logElements.join(' ')
 }
 
-morgan.token('body', function (req, res) { return req.body })
+morgan.token('body', function (req) { return req.body })
 app.use(morgan(getLogLine))
 app.get('/api/persons', (request, response) => {
   Person.find({})
@@ -70,7 +70,7 @@ app.get('/api/persons/:id', (request, response, next) => {
 
 app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndDelete(request.params.id)
-    .then(_ => {
+    .then(() => {
       response.status(204).end()
     })
     .catch(error => next(error))
