@@ -18,8 +18,8 @@ const getLogLine = (tokens, request, response) => {
     tokens.res(request, response, 'content-length'), '-',
     tokens['response-time'](request, response), 'ms'
   ]
-  if(request.method === "POST"){
-     logElements = logElements.concat(JSON.stringify(request.body))
+  if(request.method === 'POST'){
+    logElements = logElements.concat(JSON.stringify(request.body))
   }
 
   return logElements.join(' ')
@@ -35,12 +35,12 @@ app.get('/api/persons', (request, response) => {
 })
 
 app.put('/api/persons/:id', (request, response, next) => {
-  const {name, number} = request.body
+  const { name, number } = request.body
 
   Person.findByIdAndUpdate(
     request.params.id,
-    {name, number},
-    {new: true, runValidators: true, context: 'query'}
+    { name, number },
+    { new: true, runValidators: true, context: 'query' }
   )
     .then(updatedPerson => {
       response.json(updatedPerson)
@@ -55,7 +55,7 @@ app.get('/info', (request, response) => {
       const date = new Date()
       const responseText = `<p>Phonebook has info for ${numEntries} people</p><p>${date}</p>`
 
-      response.writeHead(200, {'Content-Type': 'text/html' })
+      response.writeHead(200, { 'Content-Type': 'text/html' })
       response.end(responseText)
     })
 })
@@ -92,7 +92,7 @@ app.post('/api/persons', (request, respone, next) => {
 })
 
 const unknownEndpoint = (request, response) => {
-  response.status(404).send({error: 'unknown endpoint'})
+  response.status(404).send({ error: 'unknown endpoint' })
 }
 app.use(unknownEndpoint)
 
@@ -100,9 +100,9 @@ const errorHandler = (error, request, response, next) => {
   console.error(error.message)
 
   if (error.name === 'CastError'){
-    return response.status(400).send({error: 'malformed id'})
+    return response.status(400).send({ error: 'malformed id' })
   } else if (error.name === 'ValidationError'){
-    return response.status(400).send({error: error.message})
+    return response.status(400).send({ error: error.message })
   }
 
   next(error) // Send error on to the default express errorhandler

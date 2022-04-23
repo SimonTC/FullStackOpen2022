@@ -26,7 +26,7 @@ const personSchema = new mongoose.Schema({
           return false
         }
 
-        if(value.includes("-")){
+        if(value.includes('-')){
           return /^(\d{3}|\d{2})-\d+$/.test(value)
         } else {
           return /^\d+$/.test(value)

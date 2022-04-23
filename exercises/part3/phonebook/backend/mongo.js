@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const args = process.argv;
+const args = process.argv
 if (args.length < 3){
   console.log('Please provide the password as an argument: node mongo.js <password>')
   process.exit(1)
@@ -50,7 +50,7 @@ function listPersons() {
 }
 
 if (args.length > 3){
-  addPerson(args[3], args[4]);
+  addPerson(args[3], args[4])
 } else {
-  listPersons();
+  listPersons()
 }
