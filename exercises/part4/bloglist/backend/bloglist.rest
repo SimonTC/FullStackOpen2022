@@ -1,0 +1,14 @@
+### Get all blogs
+GET {{API_URL}}
+Accept: application/json
+
+### Create new blog entry
+POST {{API_URL}}
+Content-Type: application/json
+
+{
+  "title": "My awesome blog post",
+  "author": "Simon the great",
+  "url": "www.example.com",
+  "likes": 500
+}
