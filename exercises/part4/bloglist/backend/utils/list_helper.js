@@ -28,8 +28,16 @@ const favoriteBlog = (blogs) => {
   return undefined
 }
 
+const mostBlogs = (blogs) => {
+  return {
+    author: 'bob',
+    blogs: 25
+  }
+}
+
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
