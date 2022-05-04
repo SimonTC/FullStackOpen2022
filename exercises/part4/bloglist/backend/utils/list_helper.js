@@ -1,3 +1,5 @@
+const _ = require('lodash')
+
 const dummy = (blogs) => {
   return 1
 }
@@ -29,9 +31,16 @@ const favoriteBlog = (blogs) => {
 }
 
 const mostBlogs = (blogs) => {
+  if (blogs.length === 0){
+    return undefined
+  }
+
+  const blogsByAuthor = _.groupBy(blogs, blog => blog.author)
+  const [mostProductiveAuthor, allBlogs] = _.maxBy(Object.entries(blogsByAuthor), ([, entries]) => entries.length)
+
   return {
-    author: 'bob',
-    blogs: 25
+    author: mostProductiveAuthor,
+    blogs: allBlogs.length
   }
 }
 

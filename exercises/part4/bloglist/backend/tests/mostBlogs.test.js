@@ -22,10 +22,10 @@ describe('most blogs', () => {
   })
 
   test('of many blogs equals the author with the most blogs', () => {
-    const result = listHelper.favoriteBlog(data.blogs)
+    const result = listHelper.mostBlogs(data.blogs)
     const expected =
       {
-        author: '"Robert C. Martin',
+        author: 'Robert C. Martin',
         blogs: 3
       }
     expect(result).toEqual(expected)
