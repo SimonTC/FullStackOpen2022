@@ -83,8 +83,30 @@ test('if likes are missing on a new blog post then the value is set to zero', as
   )
 })
 
-test('the body of a new  blog post is correct', async () => {
+test('Bad request is returned if new blog does not have title', async () => {
+  const blogPostWithoutTitle = {
+    author: 'the best there is',
+    url: 'www.awesome.com',
+    likes: 456
+  }
 
+  await api
+    .post(BASE_URL)
+    .send(blogPostWithoutTitle)
+    .expect(400)
+})
+
+test('Bad request is returned if new blog does not have url', async () => {
+  const blogPostWithoutUrl = {
+    title: 'Look at this great title',
+    author: 'the best there is',
+    likes: 456
+  }
+
+  await api
+    .post(BASE_URL)
+    .send(blogPostWithoutUrl)
+    .expect(400)
 })
 
 afterAll(() => {
