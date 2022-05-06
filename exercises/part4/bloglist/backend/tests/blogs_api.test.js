@@ -36,6 +36,31 @@ test('the unique identifier property of a blog is called id', async () => {
   expect(blog).toHaveProperty('id')
 })
 
+test('a new blog post is correctly added', async () => {
+  const newBlogPost = {
+    title: 'My completely new blog post',
+    author: 'the best there is',
+    url: 'www.awesome.com',
+    likes: 456
+  }
+
+  await api
+    .post(BASE_URL)
+    .send(newBlogPost)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAfterAdding = await helper.blogsInDb()
+  expect(blogsAfterAdding).toHaveLength(helper.initialBlogs.length + 1)
+  expect(blogsAfterAdding).toContainEqual(
+    expect.objectContaining(newBlogPost)
+  )
+})
+
+test('the body of a new  blog post is correct', async () => {
+
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
