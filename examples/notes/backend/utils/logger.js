@@ -1,9 +1,15 @@
+const doIfNotTest = (action) => {
+  if (process.env.NODE_ENV !== 'test'){
+    action()
+  }
+}
+
 const info = (...params) => {
-  console.log(...params)
+  doIfNotTest(() => console.log(...params))
 }
 
 const error = (...params) => {
-  console.error(...params)
+  doIfNotTest(() => console.error(...params))
 }
 
 module.exports = {
