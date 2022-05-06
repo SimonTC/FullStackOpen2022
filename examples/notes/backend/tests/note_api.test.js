@@ -5,6 +5,8 @@ const Note = require('../models/note')
 const helper = require('./test_helper')
 const api = supertest(app)
 
+const TEN_SEC_TIMEOUT = 10000
+
 beforeEach(async () => {
   await Note.deleteMany({})
   let noteObject = new Note(helper.initialNotes[0])
@@ -18,7 +20,7 @@ test('notes are returned as json', async () => {
     .get('/api/notes')
     .expect(200)
     .expect('Content-Type', /application\/json/)
-}, 10000)
+}, TEN_SEC_TIMEOUT)
 
 test('all notes are returned', async () => {
   const response = await api.get('/api/notes')
@@ -68,7 +70,7 @@ test('note without content is not added', async () => {
 
   const notesAtEnd = await helper.notesInDb()
   expect(notesAtEnd).toHaveLength(helper.initialNotes.length)
-})
+}, TEN_SEC_TIMEOUT)
 
 afterAll(() => {
   mongoose.connection.close()
