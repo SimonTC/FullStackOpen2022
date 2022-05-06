@@ -110,6 +110,38 @@ describe('adding a new blog', function () {
   })
 })
 
+describe('deleting a blog', function () {
+  test('succeeds with a status of 204 when the id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToDelete = blogsAtStart[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAfter = await helper.blogsInDb()
+    expect(blogsAfter).not.toContainEqual(
+      expect.objectContaining(blogToDelete)
+    )
+  })
+
+  test('returns 204 if no blog with that id exist', async () => {
+    const idOfNotExistingBlog = await helper.nonExistingId()
+
+    await api
+      .delete(`/api/blogs/${idOfNotExistingBlog}`)
+      .expect(204)
+  })
+
+  test('returns 400 if the id is invalid', async () => {
+    const invalidId = '465lkt'
+
+    await api
+      .delete(`/api/blogs/${invalidId}`)
+      .expect(400)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
