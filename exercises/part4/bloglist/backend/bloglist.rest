@@ -12,3 +12,11 @@ Content-Type: application/json
   "url": "www.example.com",
   "likes": 500
 }
+
+### Create new blog entry
+PUT {{API_URL}}/5a422ba71b54a676234d27fb
+Content-Type: application/json
+
+{
+  "likes": 2
+}

@@ -142,6 +142,81 @@ describe('deleting a blog', function () {
   })
 })
 
+describe('updating a blog', function () {
+  test('is successful when data is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const idOfBlogToUpdate = blogsAtStart[0].id
+
+    const updatedBlog = {
+      title: 'My completely new blog post',
+      author: 'the best there is',
+      url: 'www.awesome.com',
+      likes: 999
+    }
+
+    await api
+      .put(`/api/blogs/${idOfBlogToUpdate}`)
+      .send(updatedBlog)
+      .expect(200)
+
+    const blogsAfter = await helper.blogsInDb()
+    expect(blogsAfter).toContainEqual(
+      expect.objectContaining(updatedBlog)
+    )
+  })
+
+  test('works when only a single field is updated', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+    const idOfBlogToUpdate = blogToUpdate.id
+
+    const newAuthor = 'the best there is'
+    const updatedBlog = {
+      author: newAuthor,
+    }
+
+    const expectedBlog = {
+      title: blogToUpdate.title,
+      author: newAuthor,
+      url: blogToUpdate.url,
+      likes: blogToUpdate.likes
+    }
+
+    await api
+      .put(`/api/blogs/${idOfBlogToUpdate}`)
+      .send(updatedBlog)
+      .expect(200)
+
+    const blogsAfter = await helper.blogsInDb()
+
+    expect(blogsAfter).toContainEqual(
+      expect.objectContaining(expectedBlog)
+    )
+  })
+
+  test('returns 200 if given id does not exist', async () => {
+    const updatedBlog = {
+      title: 'I will be gone with the wind soon',
+    }
+    const idOfNonExistingBlog = await helper.nonExistingId()
+    await api
+      .put(`/api/blogs/${idOfNonExistingBlog}`)
+      .send(updatedBlog)
+      .expect(404)
+  })
+
+  test('returns 400 if id is invalid', async () => {
+    const updatedBlog = new Blog({
+      title: 'I will be gone with the wind soon',
+    })
+    const invalidId = 'bibbob2'
+    await api
+      .put(`/api/blogs/${invalidId}`)
+      .send(updatedBlog)
+      .expect(400)
+  })
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
