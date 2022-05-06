@@ -57,6 +57,32 @@ test('a new blog post is correctly added', async () => {
   )
 })
 
+test('if likes are missing on a new blog post then the value is set to zero', async () => {
+  const blogPostWithoutLikes = {
+    title: 'My blog post without likes',
+    author: 'the best there is',
+    url: 'www.awesome.com',
+  }
+
+  const expectedBlogPost = {
+    title: blogPostWithoutLikes.title,
+    author: blogPostWithoutLikes.author,
+    url: blogPostWithoutLikes.url,
+    likes: 0
+  }
+
+  await api
+    .post(BASE_URL)
+    .send(blogPostWithoutLikes)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const blogsAfterAdding = await helper.blogsInDb()
+  expect(blogsAfterAdding).toContainEqual(
+    expect.objectContaining(expectedBlogPost)
+  )
+})
+
 test('the body of a new  blog post is correct', async () => {
 
 })
