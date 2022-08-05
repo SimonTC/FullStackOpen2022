@@ -4,7 +4,8 @@ Content-Type: application/json
 
 {
   "content": "I am testing the REST-api",
-  "important": true
+  "important": true,
+  "userId": "62ece8c6f5f3038ec40293e3"
 }
 
 ### Add new note with too short content
