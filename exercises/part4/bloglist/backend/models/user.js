@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema({
   name: String,
   passwordHash: { type: String, required: true },
 })
-userSchema.plugin(uniqueValidator)
+userSchema.plugin(uniqueValidator, { message: 'username must be unique' })
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {
