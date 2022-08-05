@@ -1,0 +1,26 @@
+### Log user in with correct username/password
+POST {{LOGIN_BASE_URL}}
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "salainen"
+}
+
+### Log user in with incorrect password
+POST {{LOGIN_BASE_URL}}
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "not-salainen"
+}
+
+### Log user in with incorrect user
+POST {{LOGIN_BASE_URL}}
+Content-Type: application/json
+
+{
+  "username": "not-root",
+  "password": "salainen"
+}
