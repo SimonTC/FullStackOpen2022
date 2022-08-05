@@ -3,6 +3,7 @@ const User = require('../models/user')
 const blogData = require('./test_data').blogs
 
 const initialBlogs = blogData.map(data => new Blog(data))
+const initialUsers = [new User({ username: 'root', name: 'Johnny', passwordHash: 'secret' })]
 
 const blogsInDb = async () => {
   const blogs = await Blog.find({})
@@ -29,5 +30,5 @@ const nonExistingId = async () => {
 }
 
 module.exports = {
-  initialBlogs, blogsInDb, nonExistingId, usersInDb
+  initialBlogs, blogsInDb, nonExistingId, usersInDb, initialUsers
 }

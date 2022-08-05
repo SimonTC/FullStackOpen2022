@@ -2,12 +2,15 @@ const mongoose = require('mongoose')
 const supertest = require('supertest')
 const app = require('../app')
 const Blog = require('../models/blog')
+const User = require('../models/user')
 const helper = require('./test_helper')
 const api = supertest(app)
 
 const BASE_URL = '/api/blogs'
 
 beforeEach(async () => {
+  await User.deleteMany({})
+  await User.insertMany(helper.initialUsers)
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
 })
@@ -55,6 +58,24 @@ describe('adding a new blog', function () {
     expect(blogsAfterAdding).toContainEqual(
       expect.objectContaining(newBlogPost)
     )
+  })
+
+  test('automatically associates a user with the blog post', async () => {
+    const newBlogPost = {
+      title: 'My completely new blog post',
+      author: 'the best there is',
+      url: 'www.awesome.com',
+      likes: 456
+    }
+
+    const creationResponse = await api
+      .post(BASE_URL)
+      .send(newBlogPost)
+
+    const createdBlogPost = creationResponse.body
+
+    expect(createdBlogPost).toHaveProperty('user')
+    expect(createdBlogPost.user).toBeTruthy()
   })
 
   test('if likes are missing on a new blog post then the value is set to zero', async () => {
