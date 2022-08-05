@@ -1,6 +1,18 @@
+### Login to be able to create notes
+POST {{LOGIN_BASE_URL}}
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "salainen"
+}
+
+> {% client.global.set("auth_token", response.body.token); %}
+
 ### Add new note
 POST {{NOTES_BASE_URL}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "content": "I am testing the REST-api",
@@ -11,6 +23,7 @@ Content-Type: application/json
 ### Add new note with too short content
 POST {{NOTES_BASE_URL}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "content": "I am",
