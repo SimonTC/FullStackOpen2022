@@ -1,0 +1,12 @@
+### Get all users
+GET {{USERS_URL}}
+
+### Add new user
+POST {{USERS_URL}}
+Content-Type: application/json
+
+{
+  "username": "Other user",
+  "name": "Jacky",
+  "password": "salainen"
+}
