@@ -1,3 +1,14 @@
+### Login to be able to create notes
+POST {{LOGIN_URL}}
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "salainen"
+}
+
+> {% client.global.set("auth_token", response.body.token); %}
+
 ### Get all blogs
 GET {{API_URL}}
 Accept: application/json
@@ -5,6 +16,7 @@ Accept: application/json
 ### Create new blog entry
 POST {{API_URL}}
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "title": "My awesome blog post",
