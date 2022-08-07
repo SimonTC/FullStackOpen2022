@@ -12,6 +12,7 @@ Content-Type: application/json
 ### Get all blogs
 GET {{API_URL}}
 Accept: application/json
+Authorization: Bearer {{auth_token}}
 
 ### Create new blog entry
 POST {{API_URL}}
@@ -26,8 +27,9 @@ Authorization: Bearer {{auth_token}}
 }
 
 ### Create new blog entry
-PUT {{API_URL}}/5a422ba71b54a676234d27fb
+PUT {{API_URL}}/62ef8a96209963555859526c
 Content-Type: application/json
+Authorization: Bearer {{auth_token}}
 
 {
   "likes": 2
