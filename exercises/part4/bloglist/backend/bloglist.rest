@@ -34,3 +34,8 @@ Authorization: Bearer {{auth_token}}
 {
   "likes": 2
 }
+
+### Delete a blog entry
+DELETE {{API_URL}}/62ef8a96209963555859526c
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}

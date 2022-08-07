@@ -32,7 +32,13 @@ blogsRouter.post('/', async (request, response) => {
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
+  const blogToDelete = await Blog.findById(request.params.id)
+  if (blogToDelete && blogToDelete.user.toString() !== request.user.id.toString()){
+    return response.status(403).json({ error: 'wrong user' })
+  }
+
   await Blog.findByIdAndRemove(request.params.id)
+
   response.status(204).end()
 })
 
