@@ -1,0 +1,41 @@
+### Login to be able to create notes
+POST {{LOGIN_URL}}
+Content-Type: application/json
+
+{
+  "username": "root",
+  "password": "salainen"
+}
+
+> {% client.global.set("auth_token", response.body.token); %}
+
+### Get all blogs
+GET {{API_URL}}
+Accept: application/json
+Authorization: Bearer {{auth_token}}
+
+### Create new blog entry
+POST {{API_URL}}
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "title": "My awesome blog post",
+  "author": "Simon the great",
+  "url": "www.example.com",
+  "likes": 500
+}
+
+### Create new blog entry
+PUT {{API_URL}}/62ef8a96209963555859526c
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "likes": 2
+}
+
+### Delete a blog entry
+DELETE {{API_URL}}/62ef8a96209963555859526c
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
