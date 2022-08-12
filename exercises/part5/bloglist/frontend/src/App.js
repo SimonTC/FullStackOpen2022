@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from "./components/Notification";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
@@ -21,6 +23,13 @@ const App = () => {
       blogService.setToken(user.token)
     }
   }, [])
+
+  const setTimedNotification = notification => {
+    setNotification(notification)
+    setTimeout(() =>{
+      setNotification(null)
+    }, 5000)
+  }
 
   const handleLogin = async (event) => {
     event.preventDefault()
@@ -39,7 +48,7 @@ const App = () => {
       setPassword('')
       setUsername('')
     } catch (e) {
-      console.warn('Wrong credentials')
+      setTimedNotification({message: 'Wrong credentials', isError: true})
     }
   }
 
@@ -60,6 +69,8 @@ const App = () => {
     setTitle('')
     setAuthor('')
     setUrl('')
+
+    setTimedNotification({message: `A new blog post titled "${createdBlog.title}" by ${createdBlog.author} added`, isError: false})
   }
 
   const handleLogOut = async (event) => {
@@ -130,7 +141,7 @@ const App = () => {
 
   const notesListAndEditing = () => (
     <div>
-      <h2>blogs</h2>
+      <h2>Blogs</h2>
       <p>{user.name} logged in</p>
       <button onClick={() => handleLogOut()}>Log out</button>
       {createNewBlog()}
@@ -150,6 +161,7 @@ const App = () => {
 
   return (
     <div>
+      {notification && <Notification {...notification} />}
       {user === null
         ? loginForm()
         : notesListAndEditing()
