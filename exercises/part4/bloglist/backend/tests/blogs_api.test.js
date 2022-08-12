@@ -4,13 +4,34 @@ const app = require('../app')
 const Blog = require('../models/blog')
 const User = require('../models/user')
 const helper = require('./test_helper')
-const api = supertest(app)
+const bcrypt = require('bcrypt')
+const api = supertest.agent(app)
 
 const BASE_URL = '/api/blogs'
+const LOGIN_URL = '/api/login'
+let token = ''
+
+beforeAll(async () => {
+  await User.deleteMany({})
+  const password = 'mypassword'
+  const passwordHash = await bcrypt.hash(password, 10)
+  const username = 'root'
+  const user = new User({ username: username, passwordHash })
+  await user.save()
+
+  const loginInfo = {
+    username: username,
+    password: password
+  }
+  const loginResponse = await api
+    .post(LOGIN_URL)
+    .send(loginInfo)
+
+  token = loginResponse.body.token
+  api.auth(token, { type: 'bearer' })
+})
 
 beforeEach(async () => {
-  await User.deleteMany({})
-  await User.insertMany(helper.initialUsers)
   await Blog.deleteMany({})
   await Blog.insertMany(helper.initialBlogs)
 })
