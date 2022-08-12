@@ -9,6 +9,10 @@ const App = () => {
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
 
+  const [title, setTitle] = useState('');
+  const [author, setAuthor] = useState('');
+  const [url, setUrl] = useState('');
+
   useEffect(() => {
     const loggedInUserJSON = window.localStorage.getItem('bloglistUser')
     if (loggedInUserJSON){
@@ -37,6 +41,25 @@ const App = () => {
     } catch (e) {
       console.warn('Wrong credentials')
     }
+  }
+
+  const handleBlogDataChange = (setter) => (event) => {
+    setter(event.target.value)
+  }
+
+  const addBlogEntry = async (event) => {
+    event.preventDefault()
+    const blogObject = {
+      title: title,
+      author: author,
+      url: url
+    }
+
+    const createdBlog = await blogService.createNew(blogObject)
+    setBlogs(blogs.concat(createdBlog))
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   const handleLogOut = async (event) => {
@@ -72,11 +95,45 @@ const App = () => {
     </div>
   )
 
+  const createNewBlog = () => (
+    <div>
+      <h2>Create new</h2>
+      <form onSubmit={addBlogEntry}>
+        <div>
+          Title:
+          <input
+            value={title}
+            name="Title"
+            onChange={handleBlogDataChange(setTitle)}
+          />
+        </div>
+        <div>
+          Author:
+          <input
+            value={author}
+            name="Author"
+            onChange={handleBlogDataChange(setAuthor)}
+          />
+        </div>
+        <div>
+          Url:
+          <input
+            value={url}
+            name="Url"
+            onChange={handleBlogDataChange(setUrl)}
+          />
+        </div>
+        <button type="submit">Create</button>
+      </form>
+    </div>
+  )
+
   const notesListAndEditing = () => (
     <div>
       <h2>blogs</h2>
       <p>{user.name} logged in</p>
       <button onClick={() => handleLogOut()}>Log out</button>
+      {createNewBlog()}
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
