@@ -90,6 +90,12 @@ const App = () => {
     console.log('logging in with', username, password)
   }
 
+  const handleLogOut = async (event) => {
+    window.localStorage.removeItem('loggedNoteappUser')
+    noteService.removeToken()
+    window.location.reload()
+  }
+
   const handleNoteChange = (event) => {
     setNewNote(event.target.value)
   }
@@ -139,12 +145,15 @@ const App = () => {
   )
 
   const noteForm = () => (
-    <form onSubmit={addNote}>
-      <input
-        value={newNote}
-        onChange={handleNoteChange}/>
-      <button type="submit">save</button>
-    </form>
+    <div>
+      <button onClick={() => handleLogOut()}>Log out</button>
+      <form onSubmit={addNote}>
+        <input
+          value={newNote}
+          onChange={handleNoteChange}/>
+        <button type="submit">save</button>
+      </form>
+    </div>
   )
 
   return (
