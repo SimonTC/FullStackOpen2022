@@ -32,8 +32,7 @@ beforeAll(async () => {
 })
 
 beforeEach(async () => {
-  await Blog.deleteMany({})
-  await Blog.insertMany(helper.initialBlogs)
+  await helper.createInitialBlogs()
 })
 
 describe('when there is initially some blogs saved', function () {
