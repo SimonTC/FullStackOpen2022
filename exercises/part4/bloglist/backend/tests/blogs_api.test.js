@@ -28,11 +28,11 @@ beforeAll(async () => {
     .send(loginInfo)
 
   token = loginResponse.body.token
-  api.auth(token, { type: 'bearer' })
 })
 
 beforeEach(async () => {
   await helper.createInitialBlogs()
+  api.auth(token, { type: 'bearer' })
 })
 
 describe('when there is initially some blogs saved', function () {
