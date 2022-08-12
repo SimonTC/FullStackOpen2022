@@ -149,6 +149,38 @@ describe('adding a new blog', function () {
       .send(blogPostWithoutUrl)
       .expect(400)
   })
+
+  test('fails if no token is given', async () => {
+    const newBlogPost = {
+      title: 'My completely new blog post',
+      author: 'the best there is',
+      url: 'www.awesome.com',
+      likes: 456
+    }
+
+    api.auth()
+
+    await api
+      .post(BASE_URL)
+      .send(newBlogPost)
+      .expect(401)
+  })
+
+  test('fails if invalid token is given', async () => {
+    const newBlogPost = {
+      title: 'My completely new blog post',
+      author: 'the best there is',
+      url: 'www.awesome.com',
+      likes: 456
+    }
+
+    api.auth('Invalid token', { type: 'bearer' })
+
+    await api
+      .post(BASE_URL)
+      .send(newBlogPost)
+      .expect(401)
+  })
 })
 
 describe('deleting a blog', function () {
