@@ -5,7 +5,7 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const helper = require('./test_helper')
 const bcrypt = require('bcrypt')
-const api = supertest.agent(app)
+const api = supertest.agent(app, null)
 
 const BASE_URL = '/api/blogs'
 const LOGIN_URL = '/api/login'
