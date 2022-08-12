@@ -10,9 +10,13 @@ const setToken = newToken => {
   }
 }
 
+const removeToken = () => {
+  requestConfig = null
+}
+
 const getAll = () => {
   const request = axios.get(baseUrl, requestConfig)
   return request.then(response => response.data)
 }
 
-export default { getAll, setToken }
+export default { getAll, setToken, removeToken }
