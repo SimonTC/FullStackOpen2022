@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react'
+import {useEffect, useState} from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
 import Notification from "./components/Notification";
+import {CreateNewBlogForm} from "./components/CreateNewBlogForm";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -107,36 +108,14 @@ const App = () => {
   )
 
   const createNewBlog = () => (
-    <div>
-      <h2>Create new</h2>
-      <form onSubmit={addBlogEntry}>
-        <div>
-          Title:
-          <input
-            value={title}
-            name="Title"
-            onChange={handleBlogDataChange(setTitle)}
-          />
-        </div>
-        <div>
-          Author:
-          <input
-            value={author}
-            name="Author"
-            onChange={handleBlogDataChange(setAuthor)}
-          />
-        </div>
-        <div>
-          Url:
-          <input
-            value={url}
-            name="Url"
-            onChange={handleBlogDataChange(setUrl)}
-          />
-        </div>
-        <button type="submit">Create</button>
-      </form>
-    </div>
+    <CreateNewBlogForm
+      onSubmit={addBlogEntry}
+      title={title}
+      handleTitleChange={handleBlogDataChange(setTitle)}
+      author={author}
+      handleAuthorChange={handleBlogDataChange(setAuthor)}
+      url={url}
+      handleUrlChange={handleBlogDataChange(setUrl)}/>
   )
 
   const notesListAndEditing = () => (
