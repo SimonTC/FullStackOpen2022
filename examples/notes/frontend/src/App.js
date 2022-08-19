@@ -6,6 +6,7 @@ import loginService from './services/login'
 import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
 import NoteForm from "./components/NoteForm";
+import Togglable from "./components/Togglable";
 
 const Footer = () => {
   const footerStyle = {
@@ -147,11 +148,13 @@ const App = () => {
   }
 
   const noteForm = () => (
-    <NoteForm
-      onSubmit={addNote}
-      value={newNote}
-      handleChange={handleNoteChange}
-    />
+    <Togglable buttonLabel="New note">
+      <NoteForm
+        onSubmit={addNote}
+        value={newNote}
+        handleChange={handleNoteChange}
+      />
+    </Togglable>
   )
 
   return (
