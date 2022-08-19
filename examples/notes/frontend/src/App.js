@@ -5,6 +5,7 @@ import noteService from './services/notes'
 import loginService from './services/login'
 import Notification from "./components/Notification";
 import LoginForm from "./components/LoginForm";
+import NoteForm from "./components/NoteForm";
 
 const Footer = () => {
   const footerStyle = {
@@ -146,15 +147,11 @@ const App = () => {
   }
 
   const noteForm = () => (
-    <div>
-      <button onClick={() => handleLogOut()}>Log out</button>
-      <form onSubmit={addNote}>
-        <input
-          value={newNote}
-          onChange={handleNoteChange}/>
-        <button type="submit">save</button>
-      </form>
-    </div>
+    <NoteForm
+      onSubmit={addNote}
+      value={newNote}
+      handleChange={handleNoteChange}
+    />
   )
 
   return (
