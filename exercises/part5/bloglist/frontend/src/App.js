@@ -5,6 +5,7 @@ import loginService from './services/login'
 import Notification from "./components/Notification";
 import {CreateNewBlogForm} from "./components/CreateNewBlogForm";
 import Togglable from "./components/Togglable";
+import Blogs from "./services/blogs";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -63,6 +64,17 @@ const App = () => {
     window.location.reload()
   }
 
+  const addLikeFor = async (blog) => {
+    const updatedBlog = await blogService.update(blog)
+    const newBlogs = blogs.map(b => {
+      if (b.id === blog.id){
+        return updatedBlog
+      }
+      return b
+    })
+    setBlogs(newBlogs)
+  }
+
   const loginForm = () => (
     <div>
       <h2>Log in to application</h2>
@@ -103,7 +115,7 @@ const App = () => {
       <button onClick={() => handleLogOut()}>Log out</button>
       {createNewBlog()}
       {blogs.map(blog =>
-        <Blog key={blog.id} blog={blog} />
+        <Blog key={blog.id} blog={blog} handleLikeIncrease={addLikeFor} />
       )}
     </div>
   )
