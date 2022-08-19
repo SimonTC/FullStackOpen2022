@@ -108,13 +108,19 @@ const App = () => {
     </Togglable>
   )
 
+  const compareBlogs = (blog1, blog2) => {
+    if (blog1.likes < blog2.likes) return 1
+    if (blog1.likes > blog2.likes) return -1
+    return 0
+  }
+
   const notesListAndEditing = () => (
     <div>
       <h2>Blogs</h2>
       <p>{user.name} logged in</p>
       <button onClick={() => handleLogOut()}>Log out</button>
       {createNewBlog()}
-      {blogs.map(blog =>
+      {blogs.sort(compareBlogs).map(blog =>
         <Blog key={blog.id} blog={blog} handleLikeIncrease={addLikeFor} />
       )}
     </div>
