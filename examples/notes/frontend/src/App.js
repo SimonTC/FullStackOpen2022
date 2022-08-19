@@ -1,9 +1,10 @@
-import {useState, useEffect} from "react";
+import {useEffect, useState} from "react";
 import Note from "./components/Note";
 
 import noteService from './services/notes'
 import loginService from './services/login'
 import Notification from "./components/Notification";
+import LoginForm from "./components/LoginForm";
 
 const Footer = () => {
   const footerStyle = {
@@ -121,27 +122,8 @@ const App = () => {
     : notes.filter(note => note.important)
 
   const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({target}) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({target}) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <LoginForm handleSubmit={handleLogin} username={username} handleUsernameChange={({ target }) => setUsername(target.value)}
+               password={password} handlePasswordChange={({ target }) => setPassword(target.value)}/>
   )
 
   const noteForm = () => (
