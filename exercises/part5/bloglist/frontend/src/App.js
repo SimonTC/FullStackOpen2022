@@ -5,7 +5,6 @@ import loginService from './services/login'
 import Notification from "./components/Notification";
 import {CreateNewBlogForm} from "./components/CreateNewBlogForm";
 import Togglable from "./components/Togglable";
-import Blogs from "./services/blogs";
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -62,6 +61,11 @@ const App = () => {
     window.localStorage.removeItem('bloglistUser')
     blogService.removeToken()
     window.location.reload()
+  }
+
+  const handleBlogDeletion = async (blog) => {
+    await blogService.deleteBlog(blog)
+    setBlogs(blogs.filter(b => b !== blog))
   }
 
   const addLikeFor = async (blog) => {
@@ -121,7 +125,13 @@ const App = () => {
       <button onClick={() => handleLogOut()}>Log out</button>
       {createNewBlog()}
       {blogs.sort(compareBlogs).map(blog =>
-        <Blog key={blog.id} blog={blog} handleLikeIncrease={addLikeFor} />
+        <Blog
+          key={blog.id}
+          blog={blog}
+          handleLikeIncrease={addLikeFor}
+          currentUser={user}
+          handleBlogDeletion={handleBlogDeletion}
+        />
       )}
     </div>
   )

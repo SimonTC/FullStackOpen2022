@@ -1,15 +1,24 @@
 import {useState} from "react";
 
-const Blog = ({blog, handleLikeIncrease}) => {
+const Blog = ({blog, handleLikeIncrease, currentUser, handleBlogDeletion}) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const toggleDetails = () => {
     setShowDetails(!showDetails)
   }
 
+  const userMayDelete = blog.user.id === currentUser.id
+
   const increaseLike = () => {
     const newBlogObject = {...blog, likes: blog.likes + 1}
     handleLikeIncrease(newBlogObject)
+  }
+
+  const deleteBlog = () => {
+    const deletionIsConfirmed = window.confirm(`Are you sure you want to delete "${blog.title}"?`)
+    if (deletionIsConfirmed){
+      handleBlogDeletion(blog)
+    }
   }
 
   const blogStyle = {
@@ -31,6 +40,10 @@ const Blog = ({blog, handleLikeIncrease}) => {
         <button onClick={increaseLike}>Like</button>
         <br/>
         {blog.author}
+        <br/>
+        {userMayDelete &&
+          <button onClick={deleteBlog}>Remove</button>
+        }
       </div>
     </div>
   )
