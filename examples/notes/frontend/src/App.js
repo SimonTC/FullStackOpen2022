@@ -167,6 +167,7 @@ const App = () => {
         : <div>
           <p>{user.name} logged-in</p>
           {noteForm()}
+          <button onClick={() => handleLogOut()}>Log out</button>
         </div>
       }
 
