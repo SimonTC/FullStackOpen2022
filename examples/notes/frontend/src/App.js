@@ -28,6 +28,7 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
+  const [loginVisible, setLoginVisible] = useState(false);
 
   const toggleImportanceOf = (id) => {
     const note = notes.find(n => n.id === id)
@@ -121,10 +122,28 @@ const App = () => {
     ? notes
     : notes.filter(note => note.important)
 
-  const loginForm = () => (
-    <LoginForm handleSubmit={handleLogin} username={username} handleUsernameChange={({ target }) => setUsername(target.value)}
-               password={password} handlePasswordChange={({ target }) => setPassword(target.value)}/>
-  )
+  const loginForm = () => {
+    const hideWhenVisible = {display: loginVisible ? 'none': ''}
+    const showWhenVisible = {display: loginVisible ? '': 'none'}
+
+    return (
+      <div>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setLoginVisible(true)}>Log in</button>
+        </div>
+        <div style={showWhenVisible}>
+          <LoginForm
+            username={username}
+            password={password}
+            handleUsernameChange={({ target }) => setUsername(target.value)}
+            handlePasswordChange={({ target }) => setPassword(target.value)}
+            handleSubmit={handleLogin}
+          />
+          <button onClick={() => setLoginVisible(false)}>Cancel</button>
+        </div>
+      </div>
+    )
+  }
 
   const noteForm = () => (
     <div>
