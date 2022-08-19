@@ -1,12 +1,12 @@
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types'
 
 const LoginForm = ({
-    handlePasswordChange,
-    handleSubmit,
-    handleUsernameChange,
-    password,
-    username
-  }) => {
+  handlePasswordChange,
+  handleSubmit,
+  handleUsernameChange,
+  password,
+  username
+}) => {
   return (
     <div>
       <h2>Login</h2>
