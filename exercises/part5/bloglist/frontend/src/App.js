@@ -13,10 +13,6 @@ const App = () => {
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState(null);
 
-  const [title, setTitle] = useState('');
-  const [author, setAuthor] = useState('');
-  const [url, setUrl] = useState('');
-
   useEffect(() => {
     const loggedInUserJSON = window.localStorage.getItem('bloglistUser')
     if (loggedInUserJSON){
@@ -54,23 +50,9 @@ const App = () => {
     }
   }
 
-  const handleBlogDataChange = (setter) => (event) => {
-    setter(event.target.value)
-  }
-
-  const addBlogEntry = async (event) => {
-    event.preventDefault()
-    const blogObject = {
-      title: title,
-      author: author,
-      url: url
-    }
-
+  const addBlogEntry = async (blogObject) => {
     const createdBlog = await blogService.createNew(blogObject)
     setBlogs(blogs.concat(createdBlog))
-    setTitle('')
-    setAuthor('')
-    setUrl('')
 
     setTimedNotification({message: `A new blog post titled "${createdBlog.title}" by ${createdBlog.author} added`, isError: false})
   }
@@ -110,14 +92,7 @@ const App = () => {
 
   const createNewBlog = () => (
     <Togglable buttonLabel="New blog">
-      <CreateNewBlogForm
-        onSubmit={addBlogEntry}
-        title={title}
-        handleTitleChange={handleBlogDataChange(setTitle)}
-        author={author}
-        handleAuthorChange={handleBlogDataChange(setAuthor)}
-        url={url}
-        handleUrlChange={handleBlogDataChange(setUrl)}/>
+      <CreateNewBlogForm handleBlogCreation={addBlogEntry}/>
     </Togglable>
   )
 
