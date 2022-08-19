@@ -24,7 +24,6 @@ const Footer = () => {
 
 const App = () => {
   const [notes, setNotes] = useState([]);
-  const [newNote, setNewNote] = useState('');
   const [showAll, setShowAll] = useState(true);
   const [errorMessage, setErrorMessage] = useState(null);
   const [username, setUsername] = useState('');
@@ -99,24 +98,11 @@ const App = () => {
     noteService.removeToken()
     window.location.reload()
   }
-
-  const handleNoteChange = (event) => {
-    setNewNote(event.target.value)
-  }
-
-  const addNote = (event) => {
-    event.preventDefault() // Prevents the default action on submitting a form. One thing it prevents is the reloading of the page.
-    const noteObject = {
-      content: newNote,
-      date: new Date().toISOString(),
-      important: Math.random() < 0.5
-    }
-
+  const addNote = (noteObject) => {
     noteService
       .create( noteObject)
       .then(createdNote => {
         setNotes(notes.concat(createdNote))
-        setNewNote('')
       })
   }
 
@@ -149,11 +135,7 @@ const App = () => {
 
   const noteForm = () => (
     <Togglable buttonLabel="New note">
-      <NoteForm
-        onSubmit={addNote}
-        value={newNote}
-        handleChange={handleNoteChange}
-      />
+      <NoteForm createNote={addNote}/>
     </Togglable>
   )
 
