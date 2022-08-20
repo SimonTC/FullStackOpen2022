@@ -12,6 +12,8 @@ test('renders content', () => {
 
   render(<Note note={note}/> )
 
+  screen.debug()
+
   const element = screen.getByText(noteContent)
   expect(element).toBeDefined()
 })
