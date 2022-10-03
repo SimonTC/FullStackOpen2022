@@ -32,7 +32,7 @@ const Blog = ({blog, handleLikeIncrease, currentUser, handleBlogDeletion}) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title}
+      {blog.title} {blog.author}
       <button onClick={toggleDetails}>{showDetails? 'hide' : 'view'}</button>
       <div style={{ display: showDetails ? '' : 'none' }}>
         {blog.url}
@@ -40,7 +40,7 @@ const Blog = ({blog, handleLikeIncrease, currentUser, handleBlogDeletion}) => {
         Likes: {blog.likes}
         <button onClick={increaseLike}>Like</button>
         <br/>
-        {blog.author}
+        {currentUser.name}
         <br/>
         {userMayDelete &&
           <button onClick={deleteBlog}>Remove</button>
