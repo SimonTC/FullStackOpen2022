@@ -36,4 +36,19 @@ describe('<Blog/>', function () {
     expect(container.querySelector('#url')).toBeVisible()
     expect(container.querySelector('#added-by')).toBeVisible()
   })
+  
+  test('like event handler is wired correctly', async () => {
+    const likeIncreaseMock = jest.fn();
+    render(<Blog blog={blog} currentUser={currentUser} handleBlogDeletion={jest.fn()} handleLikeIncrease={likeIncreaseMock} />)
+
+    const user = userEvent.setup()
+    const viewDetailsButton = screen.getByText('view')
+    await user.click(viewDetailsButton)
+
+    const likeButton = screen.getByText('Like')
+    await user.click(likeButton)
+    await user.click(likeButton)
+
+    expect(likeIncreaseMock.mock.calls).toHaveLength(2)
+  })
 });
