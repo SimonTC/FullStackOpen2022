@@ -32,16 +32,15 @@ const Blog = ({blog, handleLikeIncrease, currentUser, handleBlogDeletion}) => {
 
   return (
     <div style={blogStyle}>
-      {blog.title} {blog.author}
+      <span id='title-and-author'>{blog.title} {blog.author} </span>
       <button onClick={toggleDetails}>{showDetails? 'hide' : 'view'}</button>
-      <div style={{ display: showDetails ? '' : 'none' }}>
-        {blog.url}
-        <br/>
-        Likes: {blog.likes}
-        <button onClick={increaseLike}>Like</button>
-        <br/>
-        {currentUser.name}
-        <br/>
+      <div id='details' style={{ display: showDetails ? '' : 'none' }}>
+        <p id='url'>URL: {blog.url}</p>
+        <p>
+          <span id='likes'>Likes: {blog.likes} </span>
+          <button onClick={increaseLike}>Like</button>
+        </p>
+        <p id='added-by'>Added by: {currentUser.name}</p>
         {userMayDelete &&
           <button onClick={deleteBlog}>Remove</button>
         }
