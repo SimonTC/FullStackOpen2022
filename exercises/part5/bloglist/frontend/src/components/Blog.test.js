@@ -12,7 +12,11 @@ describe('<Blog/>', function () {
     author: "The amazing Maurice",
     user:currentUser
   }
-  
+
+  // NOTE: It is apparently not good to use query selectors in tests since users will interact with the web page through
+  // query selectors. Use the methods for selecting elements by text instead.
+  // See https://medium.com/smallcase-engineering/why-should-we-not-use-document-queryselector-while-testing-react-components-835bbf34169e
+
   test('only renders title and author by default', async () => {
     const {container} = render(<Blog blog={blog} currentUser={currentUser} handleBlogDeletion={jest.fn()} handleLikeIncrease={jest.fn()} />)
 
