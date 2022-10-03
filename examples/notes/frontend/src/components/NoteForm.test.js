@@ -8,9 +8,9 @@ test('<NoteForm/> updates parent state and calls onSubmit', async() => {
   const createNote = jest.fn()
   const user = userEvent.setup()
 
-  render(<NoteForm createNote={createNote} />)
+  const { container } = render(<NoteForm createNote={createNote} />)
 
-  const input = screen.getByRole('textbox')
+  const input = container.querySelector('#note-input')
   const sendButton = screen.getByText('Save')
 
   await user.type(input, 'testing a form...')
