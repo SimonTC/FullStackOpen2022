@@ -25,6 +25,21 @@ describe('Note app', function () {
     cy.contains('Matti Luukkainen logged-in')
   })
 
+  it.only('login fails with wrong password', function () {
+    cy.contains('Log in').click()
+    cy.get('#username').type('mluukkai')
+    cy.get('#password').type('wrong')
+    cy.get('#login-button').click()
+
+    // See common assertions to use with should here: https://docs.cypress.io/guides/references/assertions.html#Common-Assertions
+    cy.get('.error')
+      .should('contain','Wrong credentials')
+      .and('have.css','color', 'rgb(255, 0, 0)')
+      .and('have.css','border-style', 'solid')
+
+    cy.get('html').should('not.contain', 'Matti Luukkainen logged in')
+  })
+
   describe('when logged in', function () {
     beforeEach(function() {
       cy.contains('Log in').click()
@@ -55,7 +70,6 @@ describe('Note app', function () {
         cy.contains('another note cypress')
           .contains('make not important')
       })
-
     })
   })
 })
