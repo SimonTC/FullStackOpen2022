@@ -10,9 +10,9 @@ test('<CreateNewBlogForm/> calls event handler with correct details', async () =
 
   render(<CreateNewBlogForm handleBlogCreation={createBlog}/> )
 
-  const titleInput = screen.getByText('Title', { exact: false }) // use some other selector
-  const authorInput = screen.getByText('Author', { exact: false })
-  const urlInput = screen.getByText('Url', { exact: false })
+  const titleInput = screen.getByRole('textbox', { name: /Title/ })
+  const authorInput = screen.getByRole('textbox', { name: /Author/ })
+  const urlInput = screen.getByRole('textbox', { name: /Url/ })
   const submitButton = screen.getByText('Create')
 
   await user.type(titleInput, 'Some blog title')
@@ -21,5 +21,5 @@ test('<CreateNewBlogForm/> calls event handler with correct details', async () =
   await user.click(submitButton)
 
   expect(createBlog.mock.calls).toHaveLength(1)
-  expect(createBlog.mock.calls[0][0]).toBe({title: 'Some blog title', author:'James Bond', url:'www.test.com'})
+  expect(createBlog.mock.calls[0][0]).toEqual({title: 'Some blog title', author:'James Bond', url:'www.test.com'})
 })
