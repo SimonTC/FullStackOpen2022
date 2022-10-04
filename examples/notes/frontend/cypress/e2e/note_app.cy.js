@@ -12,4 +12,13 @@ describe('Note app', function () {
   it('login form can be opened', function(){
     cy.contains('Log in').click()
   })
+
+  it('user can login', function () {
+    cy.contains('Log in').click()
+    cy.get('#username').type('mluukkai')
+    cy.get('#password').type('salainen')
+    cy.get('#login-button').click()
+
+    cy.contains('Matti Luukkainen logged-in')
+  })
 })
