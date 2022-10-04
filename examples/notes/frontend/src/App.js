@@ -42,6 +42,7 @@ const App = () => {
       .then(returnedNote => {
         setNotes(notes.map(note => note.id !== id ? note : returnedNote))
       })
+      // eslint-disable-next-line no-unused-vars
       .catch(error => {
         setErrorMessage(
           `Note ${note.content} was already removed from server`
@@ -95,6 +96,7 @@ const App = () => {
     console.log('logging in with', username, password)
   }
 
+  // eslint-disable-next-line no-unused-vars
   const handleLogOut = async (event) => {
     window.localStorage.removeItem('loggedNoteappUser')
     noteService.removeToken()
