@@ -1,12 +1,18 @@
 describe('Blog app', function () {
   beforeEach(function (){
     cy.request('POST', 'http://localhost:3003/api/testing/reset')
-    const user = {
+    const user1 = {
       name: 'Jimmy Tester',
       username: 'testuser',
       password: 'salainen'
     }
-    cy.request('POST', 'http://localhost:3003/api/users/', user)
+    const user2 = {
+      name: 'Jane Doe',
+      username: 'testuser2',
+      password: 'salainen'
+    }
+    cy.request('POST', 'http://localhost:3003/api/users/', user1)
+    cy.request('POST', 'http://localhost:3003/api/users/', user2)
     cy.visit('/')
   })
 
@@ -74,4 +80,11 @@ describe('Blog app', function () {
     });
   });
 
+  it.only('A blog added by one user cannot be deleted by another user', function () {
+    cy.login({ username:'testuser', password: 'salainen' })
+    cy.createBlog({title: 'Blog added by testuser1', author: 'Someone', url:'www.test.com'})
+    cy.login({ username:'testuser2', password: 'salainen' })
+    cy.getBy('blog').contains('button', 'view').click()
+    cy.get('button').contains('Remove').should("not.exist")
+  })
 });
