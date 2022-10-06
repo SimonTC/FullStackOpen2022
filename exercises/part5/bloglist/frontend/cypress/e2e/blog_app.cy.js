@@ -41,7 +41,7 @@ describe('Blog app', function () {
       cy.login({ username:'testuser', password: 'salainen' })
     })
 
-    it.only('can create a blog', function () {
+    it('can create a blog', function () {
       cy.contains('New blog').click()
       cy.contains('Title').type('My test blog')
       cy.contains('Author').type('Bobby B Man')
@@ -53,6 +53,25 @@ describe('Blog app', function () {
         .and('have.css', 'border-style', 'solid')
       cy.getBy('blog').contains('My test blog').contains('Bobby B Man')
     })
+
+    describe('that has added a blog', function () {
+      beforeEach(function() {
+        cy.createBlog({title: 'My awesome blog', author: 'Someone', url:'www.test.com'})
+      })
+
+      it('can like the blog', function () {
+        cy.getBy('blog').contains('button', 'view').click()
+        cy.contains('Likes').contains('0')
+        cy.contains('button', 'Like').click()
+        cy.contains('Likes').contains('1')
+      })
+
+      it('can delete the blog', function () {
+        cy.getBy('blog').contains('button', 'view').click()
+        cy.get('button').contains('Remove').click()
+        cy.getBy('blog').contains('My awesome blog').should('not.exist')
+      })
+    });
   });
 
 });
