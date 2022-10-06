@@ -36,4 +36,23 @@ describe('Blog app', function () {
     })
   });
 
+  describe('A logged in user', function () {
+    beforeEach(function() {
+      cy.login({ username:'testuser', password: 'salainen' })
+    })
+
+    it.only('can create a blog', function () {
+      cy.contains('New blog').click()
+      cy.contains('Title').type('My test blog')
+      cy.contains('Author').type('Bobby B Man')
+      cy.contains('Url').type('www.bestblog.com')
+      cy.contains('button', 'Create').click()
+
+      cy.contains('A new blog post titled "My test blog" by Bobby B Man')
+        .should('have.css', 'color', 'rgb(0, 128, 0)')
+        .and('have.css', 'border-style', 'solid')
+      cy.getBy('blog').contains('My test blog').contains('Bobby B Man')
+    })
+  });
+
 });

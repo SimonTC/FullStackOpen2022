@@ -31,7 +31,7 @@ const Blog = ({blog, handleLikeIncrease, currentUser, handleBlogDeletion}) => {
   }
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} data-cy='blog'>
       <span id='title-and-author'>{blog.title} {blog.author} </span>
       <button id='toggle-details-btn' onClick={toggleDetails}>{showDetails? 'hide' : 'view'}</button>
       <div id='details' style={{ display: showDetails ? '' : 'none' }}>
