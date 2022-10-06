@@ -26,7 +26,12 @@ describe('Blog app', function () {
       cy.getBy('login-username').type("testuser")
       cy.getBy('login-password').type("wrong")
       cy.getBy('login-submit').click()
-      cy.contains('Wrong credentials')
+
+      cy.get('.error')
+        .should('contain','Wrong credentials')
+        .and('have.css','color', 'rgb(255, 0, 0)')
+        .and('have.css','border-style', 'solid')
+
       cy.should('not.contain', 'Jimmy Tester logged in')
     })
   });
