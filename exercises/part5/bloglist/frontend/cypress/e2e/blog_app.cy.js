@@ -80,11 +80,34 @@ describe('Blog app', function () {
     });
   });
 
-  it.only('A blog added by one user cannot be deleted by another user', function () {
+  it('A blog added by one user cannot be deleted by another user', function () {
     cy.login({ username:'testuser', password: 'salainen' })
     cy.createBlog({title: 'Blog added by testuser1', author: 'Someone', url:'www.test.com'})
     cy.login({ username:'testuser2', password: 'salainen' })
     cy.getBy('blog').contains('button', 'view').click()
     cy.get('button').contains('Remove').should("not.exist")
+  })
+
+  it('Blogs are ordered by likes', function () {
+    cy.login({ username:'testuser', password: 'salainen' })
+    cy.createBlog({title: 'Blog 1', author: 'Someone', url:'www.test.com', likes: 5})
+    cy.createBlog({title: 'Blog 2', author: 'Someone', url:'www.test.com', likes: 7})
+    cy.createBlog({title: 'Blog 3', author: 'Someone', url:'www.test.com', likes: 3})
+    cy.getBy('blog').eq(0).contains('Blog 2')
+    cy.getBy('blog').eq(1).contains('Blog 1')
+    cy.getBy('blog').eq(2).as('Blog3').contains('Blog 3')
+
+    cy.get('@Blog3').contains('button', 'view').click()
+    cy.get('@Blog3').contains('button', 'Like').click()
+    cy.get('@Blog3').contains('Likes: 4')
+    cy.get('@Blog3').contains('button', 'Like').click()
+    cy.get('@Blog3').contains('Likes: 5')
+    cy.get('@Blog3').contains('button', 'Like').click()
+    cy.get('@Blog3').contains('Likes: 6')
+
+    cy.getBy('blog').eq(1).contains('Blog 3')
+
+
+
   })
 });
