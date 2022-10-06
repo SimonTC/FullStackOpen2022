@@ -16,16 +16,16 @@ describe('Blog app', function () {
 
   describe('Login', function () {
     it('succeeds with correct credentials', function () {
-      cy.get('[data-cy="login-username"]').type("testuser")
-      cy.get('[data-cy="login-password"]').type("salainen")
-      cy.get('[data-cy="login-submit"]').click()
+      cy.getBy('login-username').type("testuser")
+      cy.getBy('login-password').type("salainen")
+      cy.getBy('login-submit').click()
       cy.contains('Jimmy Tester logged in')
     })
 
     it('fails with wrong credentials', function () {
-      cy.get('[data-cy="login-username"]').type("testuser")
-      cy.get('[data-cy="login-password"]').type("wrong")
-      cy.get('[data-cy="login-submit"]').click()
+      cy.getBy('login-username').type("testuser")
+      cy.getBy('login-password').type("wrong")
+      cy.getBy('login-submit').click()
       cy.contains('Wrong credentials')
       cy.should('not.contain', 'Jimmy Tester logged in')
     })
