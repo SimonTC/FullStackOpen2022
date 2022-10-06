@@ -90,6 +90,7 @@ const App = () => {
             value={username}
             name="Username"
             onChange={({target}) => setUsername(target.value)}
+            data-cy="login-username"
           />
         </div>
         <div>
@@ -99,9 +100,10 @@ const App = () => {
             value={password}
             name="Password"
             onChange={({target}) => setPassword(target.value)}
+            data-cy="login-password"
           />
         </div>
-        <button type="submit">login</button>
+        <button type="submit" data-cy="login-submit">login</button>
       </form>
     </div>
   )
