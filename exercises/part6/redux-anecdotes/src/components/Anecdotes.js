@@ -18,7 +18,7 @@ const Anecdote = ({ anecdote, handleVoteClick }) => {
 
 const AnecdoteList = () => {
   const dispatch = useDispatch()
-  const anecdotes = useSelector(state => state.anecdotes)
+  const anecdotes = useSelector(state => state.anecdotes.filter(a => a.content.includes(state.filter)))
 
   const vote = ({ id, content }) => {
     dispatch(increaseVoteFor(id))
