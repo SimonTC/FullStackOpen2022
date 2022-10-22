@@ -1,4 +1,4 @@
-import {connect, useDispatch, useSelector} from "react-redux";
+import {connect} from "react-redux";
 import {toggleImportanceOf} from "../reducers/noteReducer";
 
 const Note = ({note, handleClick}) => {
@@ -11,15 +11,13 @@ const Note = ({note, handleClick}) => {
 }
 
 const Notes = (props) => {
-  const dispatch = useDispatch()
-
   return(
     <ul>
       {props.notes.map(note =>
         <Note
           key={note.id}
           note={note}
-          handleClick={() => dispatch(toggleImportanceOf(note.id))}
+          handleClick={() => props.toggleImportanceOf(note.id)}
         />
       )}
     </ul>
@@ -43,6 +41,13 @@ const mapStateToProps = (state) => {
   }
 }
 
-const ConnectedNotes = connect(mapStateToProps)(Notes)
+const mapDispatchToProps = {
+  toggleImportanceOf,
+}
+
+const ConnectedNotes = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Notes)
 
 export default ConnectedNotes
