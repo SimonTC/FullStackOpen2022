@@ -20,9 +20,9 @@ const AnecdoteList = () => {
   const dispatch = useDispatch()
   const anecdotes = useSelector(state => state.anecdotes.filter(a => a.content.includes(state.filter)))
 
-  const vote = ({ id, content }) => {
-    dispatch(increaseVoteFor(id))
-    dispatch(setNotification(`You have voted for '${content}'`))
+  const vote = (anecdote) => {
+    dispatch(increaseVoteFor(anecdote))
+    dispatch(setNotification(`You have voted for '${anecdote.content}'`))
   }
 
   return (
