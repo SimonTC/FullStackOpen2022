@@ -24,6 +24,11 @@
       "content": "New note",
       "important": false,
       "id": 5
+    },
+    {
+      "content": "Something new",
+      "important": false,
+      "id": 6
     }
   ]
 }
