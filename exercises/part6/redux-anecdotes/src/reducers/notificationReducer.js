@@ -10,7 +10,7 @@ const notificationSlice = createSlice({
       return action.payload
     },
     removeNotification(state, action){
-      return null
+      return state === action.payload ? null : state
     }
   }
 })
@@ -18,7 +18,7 @@ const notificationSlice = createSlice({
 const {addNotification, removeNotification} = notificationSlice.actions
 export default notificationSlice.reducer
 
-export const setNotification = (notification) => (dispatch) => {
+export const setNotification = (notification, timeout=5000) => (dispatch) => {
   dispatch(addNotification(notification))
-  setTimeout(() => dispatch(removeNotification()), 5000)
+  setTimeout(() => dispatch(removeNotification(notification)), timeout)
 }
