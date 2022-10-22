@@ -19,6 +19,11 @@
       "content": "fsdfsd",
       "important": false,
       "id": 4
+    },
+    {
+      "content": "New note",
+      "important": false,
+      "id": 5
     }
   ]
 }

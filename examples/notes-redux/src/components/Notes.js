@@ -13,22 +13,9 @@ const Note = ({note, handleClick}) => {
 const Notes = (props) => {
   const dispatch = useDispatch()
 
-  const notesToShow = () => {
-    const filter = props.filter
-    const notes = props.notes
-
-    if (filter === 'ALL'){
-      return notes
-    }
-
-    return filter === 'IMPORTANT'
-      ? notes.filter(note => note.important)
-      : notes.filter(note => !note.important)
-  }
-
   return(
     <ul>
-      {notesToShow().map(note =>
+      {props.notes.map(note =>
         <Note
           key={note.id}
           note={note}
@@ -40,9 +27,19 @@ const Notes = (props) => {
 }
 
 const mapStateToProps = (state) => {
-  return{
-    notes: state.notes,
-    filter: state.filter,
+
+  const filter = state.filter
+  const notes = state.notes
+
+  if (filter === 'ALL'){
+    return { notes: state.notes }
+  }
+
+  return {
+    notes: (filter === 'IMPORTANT'
+      ? notes.filter(note => note.important)
+      : notes.filter(note => !note.important)
+    )
   }
 }
 
