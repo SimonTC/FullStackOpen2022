@@ -12,15 +12,15 @@ const Note = ({note, handleClick}) => {
 
 const Notes = () => {
   const dispatch = useDispatch()
-  const notes = useSelector(state => state)
+  const notes = useSelector(state => state.notes)
 
   return(
     <ul>
       {notes.map(note =>
         <Note
           key={note.id}
-        note={note}
-        handleClick={() => dispatch(toggleImportanceOf(note.id))}
+          note={note}
+          handleClick={() => dispatch(toggleImportanceOf(note.id))}
         />
       )}
     </ul>

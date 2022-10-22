@@ -11,7 +11,7 @@ const initialState = [
   }
 ]
 
-export const noteReducer = (state = initialState, action) => {
+const noteReducer = (state = initialState, action) => {
   switch (action.type){
     case 'NEW_NOTE':
       return [...state, action.data]
@@ -49,3 +49,5 @@ export const toggleImportanceOf = (id) => {
     data: { id }
   };
 }
+
+export default noteReducer
