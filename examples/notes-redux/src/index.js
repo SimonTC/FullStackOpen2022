@@ -3,16 +3,7 @@ import ReactDOM from 'react-dom/client'
 
 import {Provider} from "react-redux"
 import App from "./App";
-import filterReducer from "./reducers/filterReducer";
-import noteReducer from "./reducers/noteReducer";
-import {configureStore} from "@reduxjs/toolkit";
-
-const store = configureStore({
-  reducer: {
-    notes: noteReducer,
-    filter: filterReducer
-  }
-})
+import {store} from "./store";
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <Provider store={store}>
