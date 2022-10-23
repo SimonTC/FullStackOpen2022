@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import {Link, Route, Routes, useMatch} from "react-router-dom";
+import {Link, Route, Routes, useMatch, useNavigate} from "react-router-dom";
 
 const Menu = () => {
   const padding = {
@@ -63,6 +63,7 @@ const CreateNew = (props) => {
   const [content, setContent] = useState('')
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
+  const navigate = useNavigate()
 
 
   const handleSubmit = (e) => {
@@ -73,6 +74,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigate('/')
   }
 
   return (
@@ -98,6 +100,12 @@ const CreateNew = (props) => {
 
 }
 
+const Notification = ({notification}) => {
+  return notification
+    ? <div>{notification}</div>
+    : null
+}
+
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
     {
@@ -121,6 +129,7 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    setNotification(`a new anecdote ${anecdote.content} created!`)
   }
 
   const anecdoteById = (id) =>
@@ -143,12 +152,11 @@ const App = () => {
     setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
   }
 
-  console.log('Selected', selectedAnecdote)
-
   return (
     <div>
       <h1>Software anecdotes</h1>
       <Menu />
+      <Notification notification={notification}/>
       <Routes>
         <Route path="/" element={<AnecdoteList anecdotes={anecdotes} />}/>
         <Route path="/anecdotes/:id" element={<Anecdote anecdote={selectedAnecdote} />}/>
