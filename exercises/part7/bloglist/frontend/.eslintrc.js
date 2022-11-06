@@ -5,5 +5,8 @@ module.exports = {
   "plugins": [
     "cypress"
   ],
-  "extends": ["react-app"],
+  "extends": [
+    "react-app",
+    "prettier"
+  ],
 }
