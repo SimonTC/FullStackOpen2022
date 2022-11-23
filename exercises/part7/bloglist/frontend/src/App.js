@@ -5,11 +5,18 @@ import loginService from './services/login';
 import Notification from './components/Notification';
 import { CreateNewBlogForm } from './components/CreateNewBlogForm';
 import Togglable from './components/Togglable';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  resetLoginInfo,
+  updatePassword,
+  updateUsername,
+} from './reducers/loginReducer';
 
 const App = () => {
+  const dispatch = useDispatch();
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const username = useSelector((state) => state.login.username);
+  const password = useSelector((state) => state.login.password);
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState(null);
 
@@ -42,8 +49,7 @@ const App = () => {
 
       setUser(user);
       blogService.setToken(user.token);
-      setPassword('');
-      setUsername('');
+      dispatch(resetLoginInfo());
     } catch (e) {
       setTimedNotification({ message: 'Wrong credentials', isError: true });
     }
@@ -91,7 +97,7 @@ const App = () => {
             type="text"
             value={username}
             name="Username"
-            onChange={({ target }) => setUsername(target.value)}
+            onChange={({ target }) => dispatch(updateUsername(target.value))}
             data-cy="login-username"
           />
         </div>
@@ -101,7 +107,7 @@ const App = () => {
             type="password"
             value={password}
             name="Password"
-            onChange={({ target }) => setPassword(target.value)}
+            onChange={({ target }) => dispatch(updatePassword(target.value))}
             data-cy="login-password"
           />
         </div>
