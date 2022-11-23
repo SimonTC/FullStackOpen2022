@@ -19,7 +19,27 @@ export const login = (username, password) => {
       username,
       password,
     });
+
+    window.localStorage.setItem('bloglistUser', JSON.stringify(user));
+
     dispatch(setUser(user));
+  };
+};
+
+export const logOut = () => {
+  return (dispatch) => {
+    window.localStorage.removeItem('bloglistUser');
+    dispatch(setUser(null));
+  };
+};
+
+export const loadUserFromStorage = () => {
+  return (dispatch) => {
+    const loggedInUserJSON = window.localStorage.getItem('bloglistUser');
+    if (loggedInUserJSON) {
+      const user = JSON.parse(loggedInUserJSON);
+      dispatch(setUser(user));
+    }
   };
 };
 

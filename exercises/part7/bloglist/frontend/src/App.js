@@ -11,23 +11,32 @@ import {
   updatePassword,
   updateUsername,
 } from './reducers/loginReducer';
+import {
+  loadUserFromStorage,
+  login,
+  logOut,
+  setUser,
+} from './reducers/userReducer';
 
 const App = () => {
   const dispatch = useDispatch();
   const [blogs, setBlogs] = useState([]);
   const username = useSelector((state) => state.login.username);
   const password = useSelector((state) => state.login.password);
-  const [user, setUser] = useState(null);
+  const user = useSelector((state) => state.user);
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
-    const loggedInUserJSON = window.localStorage.getItem('bloglistUser');
-    if (loggedInUserJSON) {
-      const user = JSON.parse(loggedInUserJSON);
-      setUser(user);
+    dispatch(loadUserFromStorage());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (user) {
       blogService.setToken(user.token);
+    } else {
+      blogService.removeToken();
     }
-  }, []);
+  }, [user]);
 
   const setTimedNotification = (notification) => {
     setNotification(notification);
@@ -47,8 +56,7 @@ const App = () => {
 
       window.localStorage.setItem('bloglistUser', JSON.stringify(user));
 
-      setUser(user);
-      blogService.setToken(user.token);
+      dispatch(setUser(user));
       dispatch(resetLoginInfo());
     } catch (e) {
       setTimedNotification({ message: 'Wrong credentials', isError: true });
@@ -66,8 +74,7 @@ const App = () => {
   };
 
   const handleLogOut = async (event) => {
-    window.localStorage.removeItem('bloglistUser');
-    blogService.removeToken();
+    dispatch(logOut());
     window.location.reload();
   };
 
