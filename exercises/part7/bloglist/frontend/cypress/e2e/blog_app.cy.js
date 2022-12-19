@@ -82,6 +82,13 @@ describe('Blog app', function () {
         cy.getBy('blog').contains('My awesome blog').should('not.exist');
       });
     });
+
+    it('can see information about all users', function () {
+      cy.login({ username: 'testuser', password: 'salainen' });
+      cy.navigateTo('users');
+      cy.getBy('userInfo').contains('Jimmy Tester');
+      cy.getBy('userInfo').contains('Jane Doe');
+    });
   });
 
   it('A blog added by one user cannot be deleted by another user', function () {

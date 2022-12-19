@@ -52,3 +52,7 @@ Cypress.Commands.add('createBlog', ({ title, author, url, likes }) => {
 
   cy.visit('http://localhost:3000');
 });
+
+Cypress.Commands.add('navigateTo', (subSiteName) => {
+  cy.visit(`http://localhost:3000/${subSiteName}`);
+});
