@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addLikeFor, deleteBlog } from '../reducers/blogReducer';
 
-const Blog = ({ blog, currentUser }) => {
+const Blog = ({ blog }) => {
   const dispatch = useDispatch();
   const [showDetails, setShowDetails] = useState(false);
+  const currentUser = useSelector((state) => state.user);
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);
@@ -57,7 +58,6 @@ const Blog = ({ blog, currentUser }) => {
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  currentUser: PropTypes.object.isRequired,
 };
 
 export default Blog;
