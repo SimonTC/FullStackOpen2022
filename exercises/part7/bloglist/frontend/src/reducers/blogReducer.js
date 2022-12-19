@@ -66,7 +66,8 @@ export const deleteBlog = (blog) => {
 
 export const addLikeFor = (blog) => {
   return async (dispatch) => {
-    const updatedBlog = await blogService.update(blog);
+    const newBlogObject = { ...blog, likes: blog.likes + 1 };
+    const updatedBlog = await blogService.update(newBlogObject);
     dispatch(updateBlog(updatedBlog));
   };
 };

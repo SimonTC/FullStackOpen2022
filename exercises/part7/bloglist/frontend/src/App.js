@@ -95,7 +95,6 @@ const App = () => {
         <Blog
           key={blog.id}
           blog={blog}
-          handleLikeIncrease={async (blog) => dispatch(addLikeFor(blog))}
           currentUser={user}
           handleBlogDeletion={async (blog) => {
             dispatch(deleteBlog(blog));

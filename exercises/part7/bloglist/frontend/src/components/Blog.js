@@ -1,12 +1,10 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { addLikeFor } from '../reducers/blogReducer';
 
-const Blog = ({
-  blog,
-  handleLikeIncrease,
-  currentUser,
-  handleBlogDeletion,
-}) => {
+const Blog = ({ blog, currentUser, handleBlogDeletion }) => {
+  const dispatch = useDispatch();
   const [showDetails, setShowDetails] = useState(false);
 
   const toggleDetails = () => {
@@ -16,8 +14,7 @@ const Blog = ({
   const userMayDelete = blog.user.id === currentUser.id;
 
   const increaseLike = () => {
-    const newBlogObject = { ...blog, likes: blog.likes + 1 };
-    handleLikeIncrease(newBlogObject);
+    dispatch(addLikeFor(blog));
   };
 
   const deleteBlog = () => {
@@ -60,7 +57,6 @@ const Blog = ({
 
 Blog.propTypes = {
   blog: PropTypes.object.isRequired,
-  handleLikeIncrease: PropTypes.func.isRequired,
   currentUser: PropTypes.object.isRequired,
   handleBlogDeletion: PropTypes.func.isRequired,
 };
