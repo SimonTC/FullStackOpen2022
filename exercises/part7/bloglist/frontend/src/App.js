@@ -17,6 +17,7 @@ import {
   logOut,
   setUser,
 } from './reducers/userReducer';
+import { setTimedNotification } from './reducers/notificationReducer';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const App = () => {
   const username = useSelector((state) => state.login.username);
   const password = useSelector((state) => state.login.password);
   const user = useSelector((state) => state.user);
-  const [notification, setNotification] = useState(null);
+  const notification = useSelector((state) => state.notification);
 
   useEffect(() => {
     dispatch(loadUserFromStorage());
@@ -37,13 +38,6 @@ const App = () => {
       blogService.removeToken();
     }
   }, [user]);
-
-  const setTimedNotification = (notification) => {
-    setNotification(notification);
-    setTimeout(() => {
-      setNotification(null);
-    }, 5000);
-  };
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -59,7 +53,9 @@ const App = () => {
       dispatch(setUser(user));
       dispatch(resetLoginInfo());
     } catch (e) {
-      setTimedNotification({ message: 'Wrong credentials', isError: true });
+      dispatch(
+        setTimedNotification({ message: 'Wrong credentials', isError: true })
+      );
     }
   };
 
@@ -67,10 +63,12 @@ const App = () => {
     const createdBlog = await blogService.createNew(blogObject);
     setBlogs(blogs.concat(createdBlog));
 
-    setTimedNotification({
-      message: `A new blog post titled "${createdBlog.title}" by ${createdBlog.author} added`,
-      isError: false,
-    });
+    dispatch(
+      setTimedNotification({
+        message: `A new blog post titled "${createdBlog.title}" by ${createdBlog.author} added`,
+        isError: false,
+      })
+    );
   };
 
   const handleLogOut = async (event) => {
