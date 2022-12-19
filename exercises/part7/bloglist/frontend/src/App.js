@@ -7,12 +7,7 @@ import Togglable from './components/Togglable';
 import { useDispatch, useSelector } from 'react-redux';
 import { updatePassword, updateUsername } from './reducers/loginReducer';
 import { loadUserFromStorage, login, logOut } from './reducers/userReducer';
-import {
-  addBlogEntry,
-  addLikeFor,
-  deleteBlog,
-  loadAllBlogs,
-} from './reducers/blogReducer';
+import { addBlogEntry, loadAllBlogs } from './reducers/blogReducer';
 
 const App = () => {
   const dispatch = useDispatch();
