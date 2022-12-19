@@ -2,23 +2,33 @@ import { createSlice } from '@reduxjs/toolkit';
 import blogService from '../services/blogs';
 import { setTimedNotification } from './notificationReducer';
 
+const sorted = (blogs) => {
+  const compareBlogs = (blog1, blog2) => {
+    if (blog1.likes < blog2.likes) return 1;
+    if (blog1.likes > blog2.likes) return -1;
+    return 0;
+  };
+
+  return blogs.sort(compareBlogs);
+};
+
 const blogSlice = createSlice({
   name: 'blogs',
   initialState: [],
   reducers: {
     setBlogs(state, action) {
-      return action.payload;
+      return sorted(action.payload);
     },
     appendBlog(state, action) {
-      return [...state, action.payload];
+      return sorted([...state, action.payload]);
     },
     removeBlog(state, action) {
-      return state.filter((b) => b !== action.payload);
+      return sorted(state.filter((b) => b.id !== action.payload.id));
     },
     updateBlog(state, action) {
       const changedBlog = action.payload;
       const id = changedBlog.id;
-      return state.map((blog) => (blog.id !== id ? blog : changedBlog));
+      return sorted(state.map((blog) => (blog.id !== id ? blog : changedBlog)));
     },
   },
 });
@@ -26,7 +36,7 @@ const blogSlice = createSlice({
 export const { setBlogs, appendBlog, updateBlog, removeBlog } =
   blogSlice.actions;
 
-export const getAllBlogs = () => {
+export const loadAllBlogs = () => {
   return async (dispatch) => {
     const blogs = await blogService.getAll();
     dispatch(setBlogs(blogs));
