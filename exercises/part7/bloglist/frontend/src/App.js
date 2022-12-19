@@ -41,22 +41,7 @@ const App = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
-    try {
-      const user = await loginService.login({
-        username,
-        password,
-      });
-
-      window.localStorage.setItem('bloglistUser', JSON.stringify(user));
-
-      dispatch(setUser(user));
-      dispatch(resetLoginInfo());
-    } catch (e) {
-      dispatch(
-        setTimedNotification({ message: 'Wrong credentials', isError: true })
-      );
-    }
+    dispatch(login(username, password));
   };
 
   const addBlogEntry = async (blogObject) => {
