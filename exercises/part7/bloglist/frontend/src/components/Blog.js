@@ -6,7 +6,7 @@ import { addLikeFor, deleteBlog } from '../reducers/blogReducer';
 const Blog = ({ blog }) => {
   const dispatch = useDispatch();
   const [showDetails, setShowDetails] = useState(false);
-  const currentUser = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => state.users.activeUser);
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);

@@ -14,7 +14,7 @@ const App = () => {
   const blogs = useSelector((state) => state.blogs);
   const username = useSelector((state) => state.login.username);
   const password = useSelector((state) => state.login.password);
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.users.activeUser);
   const notification = useSelector((state) => state.notification);
 
   useEffect(() => {

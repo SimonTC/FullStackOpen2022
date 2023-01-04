@@ -3,17 +3,22 @@ import loginService from '../services/login';
 import { resetLoginInfo } from './loginReducer';
 import { setTimedNotification } from './notificationReducer';
 
+const initialState = {
+  activeUser: null,
+  allUsers: [],
+};
+
 const userSlice = createSlice({
-  name: 'user',
-  initialState: null,
+  name: 'users',
+  initialState: initialState,
   reducers: {
-    setUser(state, action) {
-      return action.payload;
+    setActiveUser(state, action) {
+      return { ...state, activeUser: action.payload };
     },
   },
 });
 
-export const { setUser } = userSlice.actions;
+const { setActiveUser } = userSlice.actions;
 
 export const login = (username, password) => {
   return async (dispatch) => {
@@ -25,7 +30,7 @@ export const login = (username, password) => {
 
       window.localStorage.setItem('bloglistUser', JSON.stringify(user));
 
-      dispatch(setUser(user));
+      dispatch(setActiveUser(user));
       dispatch(resetLoginInfo());
     } catch (e) {
       dispatch(
@@ -38,7 +43,7 @@ export const login = (username, password) => {
 export const logOut = () => {
   return (dispatch) => {
     window.localStorage.removeItem('bloglistUser');
-    dispatch(setUser(null));
+    dispatch(setActiveUser(null));
   };
 };
 
@@ -47,7 +52,7 @@ export const loadUserFromStorage = () => {
     const loggedInUserJSON = window.localStorage.getItem('bloglistUser');
     if (loggedInUserJSON) {
       const user = JSON.parse(loggedInUserJSON);
-      dispatch(setUser(user));
+      dispatch(setActiveUser(user));
     }
   };
 };
