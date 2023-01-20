@@ -15,10 +15,13 @@ const userSlice = createSlice({
     setActiveUser(state, action) {
       return { ...state, activeUser: action.payload };
     },
+    setUsers(state, action) {
+      return { ...state, allUsers: action.payload };
+    },
   },
 });
 
-const { setActiveUser } = userSlice.actions;
+const { setActiveUser, setUsers } = userSlice.actions;
 
 export const login = (username, password) => {
   return async (dispatch) => {
